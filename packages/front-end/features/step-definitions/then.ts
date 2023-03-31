@@ -14,7 +14,7 @@ Then(
 Then(
   'I should see {string}',
   function(text: string): void {
-    const element: HTMLElement = this.getByText(text);
+    const element: HTMLElement = this.result.getByText(text, {exact: false});
     if (!element) {
       throw new Error(`Expected to find element with text: ${text}`);
     }

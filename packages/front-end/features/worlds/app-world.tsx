@@ -99,6 +99,7 @@ export default class AppWorld implements World {
   }
 
   public setRoute(route: string): void {
+    console.log("setRoute", route)
     this._route = route;
   }
   
