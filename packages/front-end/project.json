@@ -84,6 +84,17 @@
           "codeCoverage": true
         }
       }
+    },
+    "bdd": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/front-end",
+        "commands": [
+          {
+            "command": "npx cucumber-js --profile default"
+          }
+        ]
+      }
     }
   },
   "tags": []

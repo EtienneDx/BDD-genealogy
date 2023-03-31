@@ -21,6 +21,8 @@ This project uses cucumber for behavior driven development. The feature files fo
 
 The feature files are written in Gherkin. The Gherkin syntax is described [here](https://cucumber.io/docs/gherkin/reference/). These feature files are then used by cucumber to run tests on the application.
 
+To run the cucumber tests, you can use the Nx cli: `npx nx bdd front-end`
+
 ## Further help
 
 Visit the [Nx Documentation](https://nx.dev) to learn more.
