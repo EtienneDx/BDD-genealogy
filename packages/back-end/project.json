@@ -11,7 +11,7 @@
       ],
       "options": {
         "outputPath": "dist/packages/back-end",
-        "main": "packages/back-end/src/index.ts",
+        "main": "packages/back-end/main.ts",
         "tsConfig": "packages/back-end/tsconfig.lib.json",
         "assets": []
       }
@@ -54,6 +54,15 @@
         "cwd": "packages/back-end",
         "commands": [
           "npx cucumber-js --profile default"
+        ]
+      }
+    },
+    "start": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/back-end",
+        "commands": [
+          "ts-node main.ts"
         ]
       }
     }
