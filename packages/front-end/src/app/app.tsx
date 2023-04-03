@@ -1,30 +1,31 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-
 import styles from './app.module.scss';
 
 import FamilyTree from './FamilyTree';
 
-const people = [
+const peoples = [
   {
+    id: 1,
     name: 'John',
     surname: 'Doe',
     birthDate: 'January 1, 1950',
     deathDate: 'June 30, 2020',
-    imageUrl: 'https://www.buzzwebzine.fr/wp-content/uploads/2022/08/signes-personne-ne-vous-aime-pas-1024x576.jpg'
+    imageUrl: 'https://www.buzzwebzine.fr/wp-content/uploads/2022/08/signes-personne-ne-vous-aime-pas-1024x576.jpg',
+    childrenIds: [2]
   },
   {
+    id: 2,
     name: 'Jane',
     surname: 'Doe',
     birthDate: 'March 15, 1955',
-    imageUrl: 'https://laviedesreines.com/wp-content/uploads/2022/02/Comment-devenir-une-personne-solaire-pour-obtenir-tout-ce-que-vous-voulez-720x540.jpg.webp'
+    imageUrl: 'https://laviedesreines.com/wp-content/uploads/2022/02/Comment-devenir-une-personne-solaire-pour-obtenir-tout-ce-que-vous-voulez-720x540.jpg.webp',
+    ParentsIds: [2]
   },
   // add more people here...
 ];
 
-export function App(): JSX.Element {
+function BarMenu() {
   return (
-    <div className={styles.container}>
-      <div className={styles.containerHeader}>
+    <div className={styles.containerHeader}>
         <h1 className={styles.heading}>Family Tree</h1>
         <form>
           <div className={styles.inputGroup}>
@@ -45,12 +46,18 @@ export function App(): JSX.Element {
           </div>
         </form>
       </div>
+  );
+}
+
+export function App(): JSX.Element {
+  return (
+    <div className={styles.container}>
+      {BarMenu()}
       <div>
-        <FamilyTree people={people} />
+        <FamilyTree peoples={peoples}/>
       </div>
     </div>
   );
 }
 
 export default App;
-
