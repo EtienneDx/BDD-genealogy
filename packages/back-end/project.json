@@ -1,0 +1,62 @@
+{
+  "name": "back-end",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/back-end/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/packages/back-end",
+        "main": "packages/back-end/src/index.ts",
+        "tsConfig": "packages/back-end/tsconfig.lib.json",
+        "assets": []
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "packages/back-end/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        {
+          "projects": "self",
+          "target": "build"
+        }
+      ],
+      "options": {
+        "cwd": "packages/back-end",
+        "commands": [
+          "mocha --recursive --exit --require ts-node/register --reporter dot 'tests/**/*.test.ts'"
+        ]
+      }
+    },
+    "bdd": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        {
+          "projects": "self",
+          "target": "build"
+        }
+      ],
+      "options": {
+        "cwd": "packages/back-end",
+        "commands": [
+          "npx cucumber-js --profile default"
+        ]
+      }
+    }
+  },
+  "tags": []
+}
