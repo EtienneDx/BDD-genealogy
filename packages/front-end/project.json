@@ -47,7 +47,7 @@
         }
       }
     },
-    "serve": {
+    "start": {
       "executor": "@nrwl/webpack:dev-server",
       "defaultConfiguration": "development",
       "options": {
