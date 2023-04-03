@@ -1,26 +1,12 @@
 import styles from './app.module.scss';
+import FamilyTreeBuilder from './FamilyTreeBuilder';
 
-import FamilyTree from './FamilyTree';
-
-const peoples = [
-  {
-    id: 1,
-    name: 'John',
-    surname: 'Doe',
-    birthDate: 'January 1, 1950',
-    deathDate: 'June 30, 2020',
-    imageUrl: 'https://www.buzzwebzine.fr/wp-content/uploads/2022/08/signes-personne-ne-vous-aime-pas-1024x576.jpg',
-    childrenIds: [2]
-  },
-  {
-    id: 2,
-    name: 'Jane',
-    surname: 'Doe',
-    birthDate: 'March 15, 1955',
-    imageUrl: 'https://laviedesreines.com/wp-content/uploads/2022/02/Comment-devenir-une-personne-solaire-pour-obtenir-tout-ce-que-vous-voulez-720x540.jpg.webp',
-    ParentsIds: [2]
-  },
-  // add more people here...
+const family = [
+  { id: 1, pids: [2], name: 'Amber McKenzie', gender: 'female', img: 'https://cdn.balkan.app/shared/2.jpg', birthDate: '1980-01-01', deathDate: '2020-01-01' },
+  { id: 2, pids: [1], name: 'Ava Field', gender: 'male', img: 'https://cdn.balkan.app/shared/m30/5.jpg' },
+  { id: 3, mid: 1, fid: 2, name: 'Peter Stevens', gender: 'male', img: 'https://cdn.balkan.app/shared/m10/2.jpg' },
+  { id: 4, mid: 1, fid: 2, name: 'Savin Stevens', gender: 'male', img: 'https://cdn.balkan.app/shared/m10/1.jpg' },
+  { id: 5, mid: 1, fid: 2, name: 'Emma Stevens', gender: 'female', img: 'https://cdn.balkan.app/shared/w10/3.jpg' }
 ];
 
 function BarMenu() {
@@ -54,7 +40,7 @@ export function App(): JSX.Element {
     <div className={styles.container}>
       {BarMenu()}
       <div>
-        <FamilyTree peoples={peoples}/>
+        <FamilyTreeBuilder peoples={family}/>
       </div>
     </div>
   );
