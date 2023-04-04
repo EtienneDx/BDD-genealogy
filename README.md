@@ -35,6 +35,8 @@ Run `npx nx start front-end` to start the front-end.
 
 Run `npx nx start back-end` to start the back-end.
 
+The back end uses a neo4j database. You can start it using docker-compose with the following command: `docker-compose up`
+
 ## Further help
 
 Visit the [Nx Documentation](https://nx.dev) to learn more.
