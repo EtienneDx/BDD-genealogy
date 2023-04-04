@@ -9,36 +9,36 @@ const family = [
   { id: 5, mid: 1, fid: 2, name: 'Emma Stevens', gender: 'female', img: 'https://cdn.balkan.app/shared/w10/3.jpg' }
 ];
 
-function BarMenu() {
+function BarMenu(): JSX.Element {
   return (
     <div className={styles.containerHeader}>
-        <h1 className={styles.heading}>Family Tree</h1>
-        <form>
-          <div className={styles.inputGroup}>
-            <input type="text" id="name-input" className={styles.input} placeholder="Name" />
-            <input type="text" id="surname-input" className={styles.input} placeholder="Surname" />
-            <input type="number" id="generations-input" className={styles.input} placeholder="Generations" />
-            <button type="submit" id="submit-btn" className={styles.button}>Submit</button>
-          </div>
-          <div className={styles.treeType}>
-            <label>
-              <input type="radio" name="tree-type" value="ascendant" checked />
-              <span className={styles.radioText}>Ascendant Tree</span>
-            </label>
-            <label>
-              <input type="radio" name="tree-type" value="descendant" />
-              <span className={styles.radioText}>Descendant Tree</span>
-            </label>
-          </div>
-        </form>
-      </div>
+      <h1 className={styles.heading}>Family Tree</h1>
+      <form>
+        <div className={styles.inputGroup}>
+          <input type="text" id="name-input" className={styles.input} placeholder="Name" />
+          <input type="text" id="surname-input" className={styles.input} placeholder="Surname" />
+          <input type="number" id="generations-input" className={styles.input} placeholder="Generations" />
+          <button type="submit" id="submit-btn" className={styles.button}>Submit</button>
+        </div>
+        <div className={styles.treeType}>
+          <label>
+            <input type="radio" name="tree-type" value="ascendant" checked />
+            <span className={styles.radioText}>Ascendant Tree</span>
+          </label>
+          <label>
+            <input type="radio" name="tree-type" value="descendant" />
+            <span className={styles.radioText}>Descendant Tree</span>
+          </label>
+        </div>
+      </form>
+    </div>
   );
 }
 
 export function App(): JSX.Element {
   return (
     <div className={styles.container}>
-      {BarMenu()}
+      <BarMenu />
       <div>
         <FamilyTreeBuilder peoples={family}/>
       </div>

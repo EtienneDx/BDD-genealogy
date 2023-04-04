@@ -1,15 +1,15 @@
 import React, { Component, RefObject } from 'react';
 import FamilyTree from "@balkangraph/familytree.js";
 
-interface ChartProps {
+interface MyTreeProps {
   nodes: any[];
 }
 
-export default class Chart extends Component<ChartProps> {
+export default class MyTree extends Component<MyTreeProps> {
   private divRef: RefObject<HTMLDivElement>;
   private family: FamilyTree | null;
 
-  constructor(props: ChartProps) {
+  constructor(props: MyTreeProps) {
     super(props);
     this.divRef = React.createRef();
     this.family = null;
