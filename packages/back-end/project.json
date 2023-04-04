@@ -51,10 +51,19 @@
         }
       ],
       "options": {
-        "cwd": "packages/back-end",
-        "commands": [
-          "npx cucumber-js --profile default"
-        ]
+        "cwd": "packages/back-end"
+      },
+      "configurations": {
+        "default": {
+          "commands": [
+            "npx cucumber-js --profile default"
+          ]
+        },
+        "int": {
+          "commands": [
+            "npx cucumber-js --profile integration"
+          ]
+        }
       }
     },
     "start": {
