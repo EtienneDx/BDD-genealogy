@@ -12,6 +12,7 @@ export default class MyWorld extends World<WorldParameters> {
   app?: ExpressApp;
   response?: supertest.Response;
   databaseDriver: Driver;
+  idCounter = 0;
 
   constructor(options: IWorldOptions<WorldParameters>) {
     super(options);
@@ -19,7 +20,7 @@ export default class MyWorld extends World<WorldParameters> {
       this.databaseDriver = sinon.createStubInstance(Driver);
     } else {
       this.databaseDriver = neo4j.driver(
-        "neo4j://localhost:7474",
+        "bolt://localhost:7687",
       );
     }
   }

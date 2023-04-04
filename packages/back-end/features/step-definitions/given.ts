@@ -11,3 +11,14 @@ Given('a running app', async function (this: World) {
     });
   });
 });
+
+Given('a clean database', async function (this: World) {
+  if(this.parameters['mock-database'] !== true) {
+    const session = this.databaseDriver.session();
+    try {
+      await session.run('MATCH (n) DETACH DELETE n');
+    } finally {
+      await session.close();
+    }
+  }
+});

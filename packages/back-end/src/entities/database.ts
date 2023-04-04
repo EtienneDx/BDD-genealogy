@@ -1,5 +1,5 @@
 import neo4j, { Driver } from "neo4j-driver";
-import { Person } from "./person";
+import { Person, PersonProperties } from "./person";
 
 export interface DatabaseService {
   findPersonById(id: number): Promise<Person>;
@@ -17,7 +17,8 @@ export interface DatabaseService {
   findChildren(id: number): Promise<Person[]>;
   findChildren(person: Person): Promise<Person[]>;
 
-  updatePerson(person: Person): Promise<void>;
+  updatePerson(person: PersonProperties): Promise<void>;
+  createPerson(person: PersonProperties): Promise<void>;
   setFather(person: Person, father: Person): Promise<void>;
   setMother(person: Person, mother: Person): Promise<void>;
   addPartner(person: Person, partner: Person): Promise<void>;
@@ -138,13 +139,26 @@ export default class DatabaseServiceImpl implements DatabaseService {
     }
   }
 
-  async updatePerson(person: Person): Promise<void> {
+  async updatePerson(person: PersonProperties): Promise<void> {
     const session = this.driver.session();
 
     try {
       await session.run(
         "MATCH (p:Person) WHERE p.id = $id SET p = $person",
-        { id: person.properties.id, person }
+        { id: person.id, person }
+      );
+    } finally {
+      await session.close();
+    }
+  }
+
+  async createPerson(person: PersonProperties): Promise<void> {
+    const session = this.driver.session();
+
+    try {
+      await session.run(
+        "CREATE (p:Person $person)",
+        { person }
       );
     } finally {
       await session.close();
@@ -214,7 +228,7 @@ export default class DatabaseServiceImpl implements DatabaseService {
 
 export function connectToDatabase(): DatabaseService {
   const driver = neo4j.driver(
-    "neo4j://localhost:7474",
+    "bolt://localhost:7687",
   );
   return new DatabaseServiceImpl(driver);
 }
