@@ -3,7 +3,7 @@ import { Person, PersonProperties } from "./person";
 
 export interface DatabaseService {
   findPersonById(id: number): Promise<Person>;
-  findPersonByName(name: string): Promise<Person>;
+  findPersonsByName(name: string): Promise<Person[]>;
 
   findFather(id: number): Promise<Person>;
   findFather(person: Person): Promise<Person>;
@@ -20,7 +20,9 @@ export interface DatabaseService {
   updatePerson(person: PersonProperties): Promise<void>;
   createPerson(person: PersonProperties): Promise<void>;
   setFather(person: Person, father: Person): Promise<void>;
+  removeFather(person: Person): Promise<void>;
   setMother(person: Person, mother: Person): Promise<void>;
+  removeMother(person: Person): Promise<void>;
   addPartner(person: Person, partner: Person): Promise<void>;
   removePartner(person: Person, partner: Person): Promise<void>;
 }
@@ -49,7 +51,7 @@ export default class DatabaseServiceImpl implements DatabaseService {
     }
   }
 
-  async findPersonByName(name: string): Promise<Person> {
+  async findPersonsByName(name: string): Promise<Person[]> {
     const session = this.driver.session();
 
     try {
@@ -58,9 +60,9 @@ export default class DatabaseServiceImpl implements DatabaseService {
         { name }
       );
 
-      const person = result.records[0].get("p");
+      const persons = result.records.map((record) => record.get("p"));
 
-      return person;
+      return persons;
     } finally {
       await session.close();
     }
@@ -182,6 +184,19 @@ export default class DatabaseServiceImpl implements DatabaseService {
     }
   }
 
+  async removeFather(person: Person): Promise<void> {
+    const session = this.driver.session();
+
+    try {
+      await session.run(
+        "MATCH (p:Person)-[r:FATHER]->(f:Person) WHERE p.id = $personId DELETE r",
+        { personId: person.properties.id }
+      );
+    } finally {
+      await session.close();
+    }
+  }
+
   async setMother(person: Person, mother: Person): Promise<void> {
     const session = this.driver.session();
 
@@ -193,6 +208,19 @@ export default class DatabaseServiceImpl implements DatabaseService {
       await session.run(
         "MATCH (p:Person), (m:Person) WHERE p.id = $personId AND m.id = $motherId CREATE (p)-[:MOTHER]->(m)",
         { personId: person.properties.id, motherId: mother.properties.id }
+      );
+    } finally {
+      await session.close();
+    }
+  }
+
+  async removeMother(person: Person): Promise<void> {
+    const session = this.driver.session();
+
+    try {
+      await session.run(
+        "MATCH (p:Person)-[r:MOTHER]->(m:Person) WHERE p.id = $personId DELETE r",
+        { personId: person.properties.id }
       );
     } finally {
       await session.close();
