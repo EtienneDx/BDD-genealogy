@@ -55,6 +55,13 @@
         "commands": [
           "npx cucumber-js --profile default"
         ]
+      },
+      "configurations": {
+        "int": {
+          "commands": [
+            "npx cucumber-js --profile integration"
+          ]
+        }
       }
     },
     "start": {
