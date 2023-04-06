@@ -2,8 +2,7 @@ import { When } from '@cucumber/cucumber';
 import { expect } from 'chai';
 import supertest from 'supertest';
 import World from './world';
-import DatabaseServiceImpl from '../../src/entities/database';
-import { PersonProperties } from '../../src/entities/person';
+import { DatabaseServiceImpl, PersonProperties } from '../../src/entities';
 
 When('I visit {string}', async function (this: World, path: string) {
   expect(this.app).not.to.be.undefined;
@@ -24,6 +23,15 @@ When(
       name,
     };
 
-    await databaseService.createPerson(person);
-  }
-);
+  await databaseService.createPerson(person);
+});
+
+When('I post a {string} email and {string} password to {string}', async function (this: World, mailValidity: string, passwordValidity: string, path: string ) {
+  const email: string = mailValidity === "valid" ? 'validemail@tdd.org' : 'wrongemail@tdd.org'
+  const password: string = passwordValidity === "valid" ? 'validpassword1234' : 'wrongpassword1234'
+
+  expect(this.app).not.to.be.undefined;
+  this.response = await supertest(this.app)
+    .post(path)
+    .send({email,password});
+});
