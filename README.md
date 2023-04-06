@@ -37,6 +37,19 @@ Run `npx nx start back-end` to start the back-end.
 
 The back end uses a neo4j database. You can start it using docker-compose with the following command: `docker-compose up`
 
+## Linting the project
+
+Run `npx nx run front-end:lint` to lint the front-end.
+
+Run `npx nx run back-end:lint` to lint the back-end.
+
+### Linting the project with auto-fix
+
+Run `npx nx run front-end:lint --fix` to lint the front-end with auto-fix.
+
+Run `npx nx run back-end:lint --fix` to lint the back-end with auto-fix.
+
+
 ## Further help
 
 Visit the [Nx Documentation](https://nx.dev) to learn more.
