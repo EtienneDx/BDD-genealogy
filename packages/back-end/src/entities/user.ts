@@ -1,11 +1,11 @@
-import { Node, Integer, Relationship } from 'neo4j-driver'
+import { Node, Integer, Relationship } from 'neo4j-driver';
 
 export interface UserProperties {
   id: number;
   name?: string;
   email?: string;
   password?: string;
-};
+}
 
 export type User = Node<Integer, UserProperties>;
 

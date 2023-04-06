@@ -23,15 +23,26 @@ When(
       name,
     };
 
-  await databaseService.createPerson(person);
-});
+    await databaseService.createPerson(person);
+  }
+);
 
-When('I post a {string} email and {string} password to {string}', async function (this: World, mailValidity: string, passwordValidity: string, path: string ) {
-  const email: string = mailValidity === "valid" ? 'validemail@tdd.org' : 'wrongemail@tdd.org'
-  const password: string = passwordValidity === "valid" ? 'validpassword1234' : 'wrongpassword1234'
+When(
+  'I post a {string} email and {string} password to {string}',
+  async function (
+    this: World,
+    mailValidity: string,
+    passwordValidity: string,
+    path: string
+  ) {
+    const email: string =
+      mailValidity === 'valid' ? 'validemail@tdd.org' : 'wrongemail@tdd.org';
+    const password: string =
+      passwordValidity === 'valid' ? 'validpassword1234' : 'wrongpassword1234';
 
-  expect(this.app).not.to.be.undefined;
-  this.response = await supertest(this.app)
-    .post(path)
-    .send({email,password});
-});
+    expect(this.app).not.to.be.undefined;
+    this.response = await supertest(this.app)
+      .post(path)
+      .send({ email, password });
+  }
+);

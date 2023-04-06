@@ -1,5 +1,6 @@
 import neo4j, { Driver } from 'neo4j-driver';
 import { Person, PersonProperties } from './person';
+import { UserProperties } from './user';
 
 export interface DatabaseService {
   findPersonById(id: number): Promise<Person>;
@@ -39,20 +40,18 @@ export class DatabaseServiceImpl implements DatabaseService {
 
     try {
       const emailCheck = await session.run(
-        "MATCH (p:Person) WHERE p.email = $email RETURN p",
+        'MATCH (u:User) WHERE u.email = $email RETURN u',
         { email, password }
       );
-      if (emailCheck.records.length === 0)
-        return 'Invalid email';
-      
-      const result = await session.run(
-        "MATCH (p:Person) WHERE p.email = $email AND p.password = $password RETURN p",
-        { email, password }
-      );
-      if (result.records.length === 0)
-        return 'Invalid password';
+      if (emailCheck.records.length === 0) return 'Invalid email';
 
-      const person = result.records[0].get("p");
+      const result = await session.run(
+        'MATCH (u:User) WHERE u.email = $email AND u.password = $password RETURN u',
+        { email, password }
+      );
+      if (result.records.length === 0) return 'Invalid password';
+
+      const person = result.records[0].get('u');
 
       return person;
     } finally {
@@ -184,6 +183,16 @@ export class DatabaseServiceImpl implements DatabaseService {
 
     try {
       await session.run('CREATE (p:Person $person)', { person });
+    } finally {
+      await session.close();
+    }
+  }
+
+  async createUser(user: UserProperties): Promise<void> {
+    const session = this.driver.session();
+
+    try {
+      await session.run('CREATE (u:User $user)', { user });
     } finally {
       await session.close();
     }
