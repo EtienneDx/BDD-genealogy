@@ -33,9 +33,10 @@ Then(
       return;
     }
     const databaseService = new DatabaseServiceImpl(this.databaseDriver);
-    const person = await databaseService.findPersonByName(name);
+    const persons = await databaseService.findPersonsByName(name);
 
-    expect(person).not.to.be.undefined;
-    expect(person?.properties.name).to.equal(name);
+    expect(persons).not.to.be.undefined;
+    expect(persons.length).to.equal(1);
+    expect(persons[0].properties.name).to.equal(name);
   }
 );
