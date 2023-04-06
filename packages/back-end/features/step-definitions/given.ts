@@ -4,7 +4,7 @@ import World from './world';
 
 Given('a running app', async function (this: World) {
   return new Promise<void>((resolve, reject) => {
-    this.app = createApp();
+    this.app = createApp(this.databaseService);
     this.app.listen(function (err: unknown) {
       if (err) {
         return reject(err);

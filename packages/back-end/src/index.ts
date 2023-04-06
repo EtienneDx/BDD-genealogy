@@ -1,13 +1,15 @@
 import express from 'express';
-import DatabaseServiceImpl from './entities/database';
-import neo4j from 'neo4j-driver';
+import { DatabaseService } from './entities/database';
 
-export default function createApp() {
+declare module 'express-serve-static-core' {
+  export interface Express {
+    databaseService: DatabaseService;
+  }
+}
+
+export default function createApp(databaseService: DatabaseService) {
   const app = express();
-  app.set(
-    'databaseService',
-    new DatabaseServiceImpl(neo4j.driver('bolt://localhost:7687'))
-  );
+  app.databaseService = databaseService;
 
   app.get('/', (_, res) => {
     res.json({ message: 'Hello World' });
