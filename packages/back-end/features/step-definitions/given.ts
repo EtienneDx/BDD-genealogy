@@ -6,7 +6,7 @@ import DatabaseServiceImpl from '../../src/entities/database';
 Given('a running app', async function (this: World) {
   return new Promise<void>((resolve, reject) => {
     const databaseService = new DatabaseServiceImpl(this.databaseDriver);
-    this.app = createApp(databaseService);
+    this.app = createApp({ databaseService });
     this.app.listen(function (err: unknown) {
       if (err) {
         return reject(err);

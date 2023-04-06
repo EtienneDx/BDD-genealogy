@@ -7,9 +7,12 @@ declare module 'express-serve-static-core' {
   }
 }
 
-export default function createApp(databaseService: DatabaseService) {
+export type CreateAppOptions = {
+  databaseService: DatabaseService
+};
+export default function createApp(options: CreateAppOptions) {
   const app = express();
-  app.databaseService = databaseService;
+  app.databaseService = options.databaseService;
 
   app.get('/', (_, res) => {
     res.json({ message: 'Hello World' });
