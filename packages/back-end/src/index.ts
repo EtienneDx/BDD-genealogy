@@ -17,9 +17,9 @@ export default function createApp(options: CreateAppOptions) {
   app.get('/', (_, res) => {
     res.json({ message: 'Hello World' });
   });
-  app.get("/login", (_, res) => {
-    res.json({ message: "Access Denied" });
+  app.post('/login', (_, res) => {
+    res.json({ message: 'Access Denied' });
   });
-  
+
   return app;
 }

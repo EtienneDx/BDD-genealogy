@@ -1,7 +1,11 @@
 import { Given } from '@cucumber/cucumber';
 import createApp from '../../src';
 import World from './world';
-import DatabaseServiceImpl from '../../src/entities/database';
+import {
+  DatabaseServiceImpl,
+  PersonProperties,
+  UserProperties,
+} from '../../src/entities';
 
 Given('a running app', async function (this: World) {
   return new Promise<void>((resolve, reject) => {
@@ -21,6 +25,27 @@ Given('a clean database', async function (this: World) {
     const session = this.databaseDriver.session();
     try {
       await session.run('MATCH (n) DETACH DELETE n');
+    } finally {
+      await session.close();
+    }
+  }
+});
+
+Given('an existing user', async function (this: World) {
+  if (this.parameters['mock-database'] !== true) {
+    const session = this.databaseDriver.session();
+    try {
+      await session.run('MATCH (n) DETACH DELETE n');
+      const databaseService = new DatabaseServiceImpl(this.databaseDriver);
+
+      const user: UserProperties = {
+        id: this.idCounter++,
+        name: 'testuser',
+        email: 'validmail@tdd.org',
+        password: 'validpassword1234',
+      };
+
+      await databaseService.createUser(user);
     } finally {
       await session.close();
     }
