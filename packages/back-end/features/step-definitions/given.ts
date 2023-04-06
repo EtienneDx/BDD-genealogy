@@ -56,3 +56,14 @@ Given(
     await databaseService.createUser(user);
   }
 );
+
+Given('a person with id {int}', async function (this: World, id: number) {
+  if (!this.app) throw new Error('Set a running app first!');
+  if (this.parameters['mock-database'] === true) {
+    // when mocking, we consider that the person is successfully added
+    return;
+  }
+
+  this.app.databaseService.createPerson({ id });
+  return;
+});
