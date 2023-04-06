@@ -27,11 +27,37 @@ export interface DatabaseService {
   removePartner(person: Person, partner: Person): Promise<void>;
 }
 
-export default class DatabaseServiceImpl implements DatabaseService {
+export class DatabaseServiceImpl implements DatabaseService {
   private driver: Driver;
 
   constructor(driver: Driver) {
     this.driver = driver;
+  }
+
+  async authentificateUser(email: string, password: string) {
+    const session = this.driver.session();
+
+    try {
+      const emailCheck = await session.run(
+        "MATCH (p:Person) WHERE p.email = $email RETURN p",
+        { email, password }
+      );
+      if (emailCheck.records.length === 0)
+        return 'Invalid email';
+      
+      const result = await session.run(
+        "MATCH (p:Person) WHERE p.email = $email AND p.password = $password RETURN p",
+        { email, password }
+      );
+      if (result.records.length === 0)
+        return 'Invalid password';
+
+      const person = result.records[0].get("p");
+
+      return person;
+    } finally {
+      await session.close();
+    }
   }
 
   async findPersonById(id: number): Promise<Person> {
