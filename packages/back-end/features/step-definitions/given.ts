@@ -6,11 +6,13 @@ import {
   PersonProperties,
   UserProperties,
 } from '../../src/entities';
+import { TokenService } from '../../src/services';
 
 Given('a running app', async function (this: World) {
   return new Promise<void>((resolve, reject) => {
     const databaseService = new DatabaseServiceImpl(this.databaseDriver);
-    this.app = createApp({ databaseService });
+    const tokenService = new TokenService('JWT_SECRET');
+    this.app = createApp({ databaseService, tokenService });
     this.app.listen(function (err: unknown) {
       if (err) {
         return reject(err);
