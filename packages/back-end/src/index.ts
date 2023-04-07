@@ -1,5 +1,6 @@
 import express from 'express';
 import { DatabaseService } from './entities/database';
+import { TokenService } from './services';
 
 declare module 'express-serve-static-core' {
   export interface Express {
@@ -7,8 +8,17 @@ declare module 'express-serve-static-core' {
   }
 }
 
+declare module 'express' {
+  export interface Request {
+    user?: {
+      id: string;
+    };
+  }
+}
+
 export type CreateAppOptions = {
-  databaseService: DatabaseService
+  databaseService: DatabaseService;
+  tokenService: TokenService;
 };
 export default function createApp(options: CreateAppOptions) {
   const app = express();

@@ -29,13 +29,15 @@ Then('I should see a {string} field', function (this: World, field: string) {
   expect(this.response?.body[field]).not.to.be.undefined;
 });
 
-Then('I should be able to retrieve a person with name {string}', async function (this: World, name: string) {
-  if(this.parameters['mock-database'] === true) {
-    // when mocking, we consider that the person is always found
-    return;
-  }
-  const databaseService = new DatabaseServiceImpl(this.databaseDriver);
-  const persons = await databaseService.findPersonsByName(name);
+Then(
+  'I should be able to retrieve the person with name {string}',
+  async function (this: World, name: string) {
+    if (this.parameters['mock-database'] === true) {
+      // when mocking, we consider that the person is always found
+      return;
+    }
+    const databaseService = new DatabaseServiceImpl(this.databaseDriver);
+    const persons = await databaseService.findPersonsByName(name);
 
     expect(persons).not.to.be.undefined;
     expect(persons.length).to.equal(1);
