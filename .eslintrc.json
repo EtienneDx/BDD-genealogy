@@ -40,7 +40,13 @@
             "caughtErrorsIgnorePattern": "^_"
           }
         ],
-        "linebreak-style": "off"
+        "linebreak-style": "off",
+        "prettier/prettier": [
+          "error",
+          {
+            "endOfLine": "auto"
+          }
+        ]
       }
     },
     {
