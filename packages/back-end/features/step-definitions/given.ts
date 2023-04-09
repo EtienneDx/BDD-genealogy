@@ -1,4 +1,5 @@
 import { Given } from '@cucumber/cucumber';
+import sinon from 'sinon';
 import createApp from '../../src';
 import World from './world';
 import { DatabaseServiceImpl, UserProperties } from '../../src/entities';
@@ -6,7 +7,9 @@ import { PasswordService, TokenService } from '../../src/services';
 
 Given('a running app', async function (this: World) {
   return new Promise<void>((resolve, reject) => {
-    const databaseService = new DatabaseServiceImpl(this.databaseDriver);
+    const databaseService = this.parameters['mock-database']
+      ? sinon.createStubInstance(DatabaseServiceImpl)
+      : new DatabaseServiceImpl(this.databaseDriver);
     const tokenService = new TokenService('JWT_SECRET');
     const passwordService = new PasswordService();
     this.app = createApp({ databaseService, tokenService, passwordService });
@@ -45,7 +48,10 @@ Given(
       this.idCounter = user.id + 1;
     }
 
-    // TODO: hash password
+    const passwordService = new PasswordService();
+    if (user.password !== undefined) {
+      user.password = await passwordService.hashPassword(user.password);
+    }
 
     await databaseService.createUser(user);
   }

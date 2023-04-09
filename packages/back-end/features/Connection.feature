@@ -13,17 +13,22 @@ Feature: User authentification
     When I "post" a "{\"email\": \"validemail@tdd.org\", \"password\": \"validpassword1234\"}" object to "/login"
     Then I should see a 200 status code
     And I should see a "application/json" content type
-    And I should see a "user" field
     And I should see a "token" field
 
   Scenario: Connecting using valid email + invalid password
     When I "post" a "{\"email\": \"validemail@tdd.org\", \"password\": \"invalidpassword1234\"}" object to "/login"
     Then I should see a 403 status code
     And I should see a "application/json" content type
-    And I should see a "message" field containing "Invalid password"
+    And I should see a "message" field containing "Invalid credentials"
 
   Scenario: Connecting using invalid email
     When I "post" a "{\"email\": \"invalidemail@tdd.org\", \"password\": \"validpassword1234\"}" object to "/login"
     Then I should see a 403 status code
     And I should see a "application/json" content type
-    And I should see a "message" field containing "Invalid email"
+    And I should see a "message" field containing "Invalid credentials"
+
+  Scenario: Connecting with an invalid body
+    When I "post" a "{\"email\": \"sth\"}" object to "/login"
+    Then I should see a 400 status code
+    And I should see a "application/json" content type
+    And I should see a "message" field containing "Invalid request body"

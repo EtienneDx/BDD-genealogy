@@ -38,7 +38,6 @@ When(
   ) {
     expect(this.app).not.to.be.undefined;
     expect(method).to.be.oneOf(['post', 'put', 'get']);
-    console.log(objectData);
 
     switch (method) {
       case 'post':

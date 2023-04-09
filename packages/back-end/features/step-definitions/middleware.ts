@@ -23,7 +23,6 @@ Given(
 );
 
 When('the middleware processes the request', function (this: World) {
-  const databaseService = sinon.createStubInstance(DatabaseServiceImpl);
   const tokenService = sinon.createStubInstance(TokenService);
   // tokenService.verifyToken returns a valid user id when the token is valid and false when the token is invalid.
   tokenService.verifyToken.callsFake((token: string) => {
@@ -33,7 +32,6 @@ When('the middleware processes the request', function (this: World) {
     return false;
   });
   const middleware = authorizationMiddleware({
-    databaseService,
     tokenService,
   });
 

@@ -5,7 +5,7 @@ import createApp from '../src';
 import { DatabaseServiceImpl } from '../src/entities';
 import { Driver } from 'neo4j-driver';
 import Sinon from 'sinon';
-import { TokenService } from '../src/services';
+import { PasswordService, TokenService } from '../src/services';
 
 describe('App', () => {
   let app: ExpressApp;
@@ -14,7 +14,8 @@ describe('App', () => {
     const driver = Sinon.createStubInstance(Driver);
     const databaseService = new DatabaseServiceImpl(driver);
     const tokenService = new TokenService('JWT_SECRET');
-    app = createApp({ databaseService, tokenService });
+    const passwordService = new PasswordService();
+    app = createApp({ databaseService, tokenService, passwordService });
     app.listen(function (err: unknown) {
       if (err) {
         return done(err);
