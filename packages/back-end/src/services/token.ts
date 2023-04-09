@@ -23,4 +23,8 @@ export default class TokenService {
       return false;
     }
   }
+
+  public generateToken(payload: Record<string, string>): string {
+    return jwt.sign(payload, this.jwtSecret);
+  }
 }

@@ -26,7 +26,7 @@ Then(
 );
 Then('I should see a {string} field', function (this: World, field: string) {
   expect(this.response).not.to.be.undefined;
-  expect(this.response?.body[field]).not.to.be.undefined;
+  expect(this.response?.body[field]).to.not.be.undefined;
 });
 
 Then(

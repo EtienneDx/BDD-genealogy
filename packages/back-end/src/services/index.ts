@@ -1,3 +1,4 @@
 import TokenService from './token';
+import PasswordService from './password';
 
-export { TokenService };
+export { TokenService, PasswordService };
