@@ -28,21 +28,36 @@ When(
 );
 
 When(
-  'I post a {string} email and {string} password to {string}',
+  // When I "post/get/put" a "jsonData" object to "path"
+  'I {string} a {string} object to {string}',
   async function (
     this: World,
-    mailValidity: string,
-    passwordValidity: string,
+    method: string,
+    objectData: string,
     path: string
   ) {
-    const email: string =
-      mailValidity === 'valid' ? 'validemail@tdd.org' : 'wrongemail@tdd.org';
-    const password: string =
-      passwordValidity === 'valid' ? 'validpassword1234' : 'wrongpassword1234';
-
     expect(this.app).not.to.be.undefined;
-    this.response = await supertest(this.app)
-      .post(path)
-      .send({ email, password });
+    expect(method).to.be.oneOf(['post', 'put', 'get']);
+    console.log(objectData);
+
+    switch (method) {
+      case 'post':
+        this.response = await supertest(this.app)
+          .post(path)
+          .send(JSON.parse(objectData));
+        break;
+
+      case 'put':
+        this.response = await supertest(this.app)
+          .put(path)
+          .send(JSON.parse(objectData));
+        break;
+
+      case 'get':
+        this.response = await supertest(this.app)
+          .get(path)
+          .send(JSON.parse(objectData));
+        break;
+    }
   }
 );

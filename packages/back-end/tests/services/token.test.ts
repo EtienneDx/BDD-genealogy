@@ -41,4 +41,23 @@ describe('Token Service', () => {
       expect(payload).to.be.false;
     }
   );
+
+  it(
+    'Given a valid payload ' +
+      'When I generate a token ' +
+      'Then I should get a valid token',
+    () => {
+      // GIVEN
+      const payload = PAYLOAD;
+
+      // WHEN
+      const token = tokenService.generateToken(payload);
+
+      // THEN
+      const payloadFromToken = tokenService.verifyToken<typeof PAYLOAD>(token);
+      expect(payloadFromToken).to.not.be.false;
+      const payloadObject = payloadFromToken as typeof PAYLOAD;
+      expect(payloadObject.id).to.equal(PAYLOAD.id);
+    }
+  );
 });
