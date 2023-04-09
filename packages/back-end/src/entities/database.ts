@@ -1,16 +1,16 @@
 import neo4j, { Driver } from 'neo4j-driver';
 import { Person, PersonProperties } from './person';
-import { UserProperties } from './user';
+import { User, UserProperties } from './user';
 
 export interface DatabaseService {
-  findPersonById(id: number): Promise<Person>;
+  findPersonById(id: number): Promise<Person | undefined>;
   findPersonsByName(name: string): Promise<Person[]>;
 
-  findFather(id: number): Promise<Person>;
-  findFather(person: Person): Promise<Person>;
+  findFather(id: number): Promise<Person | undefined>;
+  findFather(person: Person): Promise<Person | undefined>;
 
-  findMother(id: number): Promise<Person>;
-  findMother(person: Person): Promise<Person>;
+  findMother(id: number): Promise<Person | undefined>;
+  findMother(person: Person): Promise<Person | undefined>;
 
   findPartners(id: number): Promise<Person[]>;
   findPartners(person: Person): Promise<Person[]>;
@@ -26,6 +26,9 @@ export interface DatabaseService {
   removeMother(person: Person): Promise<void>;
   addPartner(person: Person, partner: Person): Promise<void>;
   removePartner(person: Person, partner: Person): Promise<void>;
+
+  createUser(user: UserProperties): Promise<void>;
+  getUserByEmail(email: string): Promise<User | undefined>;
 }
 
 export class DatabaseServiceImpl implements DatabaseService {
@@ -35,31 +38,7 @@ export class DatabaseServiceImpl implements DatabaseService {
     this.driver = driver;
   }
 
-  async authentificateUser(email: string, password: string) {
-    const session = this.driver.session();
-
-    try {
-      const emailCheck = await session.run(
-        'MATCH (u:User) WHERE u.email = $email RETURN u',
-        { email, password }
-      );
-      if (emailCheck.records.length === 0) return 'Invalid email';
-
-      const result = await session.run(
-        'MATCH (u:User) WHERE u.email = $email AND u.password = $password RETURN u',
-        { email, password }
-      );
-      if (result.records.length === 0) return 'Invalid password';
-
-      const person = result.records[0].get('u');
-
-      return person;
-    } finally {
-      await session.close();
-    }
-  }
-
-  async findPersonById(id: number): Promise<Person> {
+  async findPersonById(id: number): Promise<Person | undefined> {
     const session = this.driver.session();
 
     try {
@@ -71,6 +50,8 @@ export class DatabaseServiceImpl implements DatabaseService {
       const person = result.records[0].get('p');
 
       return person;
+    } catch {
+      return undefined;
     } finally {
       await session.close();
     }
@@ -93,7 +74,7 @@ export class DatabaseServiceImpl implements DatabaseService {
     }
   }
 
-  async findFather(person: number | Person): Promise<Person> {
+  async findFather(person: number | Person): Promise<Person | undefined> {
     const session = this.driver.session();
     const id = typeof person === 'number' ? person : person.properties.id;
 
@@ -106,12 +87,14 @@ export class DatabaseServiceImpl implements DatabaseService {
       const father = result.records[0].get('f');
 
       return father;
+    } catch {
+      return undefined;
     } finally {
       await session.close();
     }
   }
 
-  async findMother(person: number | Person): Promise<Person> {
+  async findMother(person: number | Person): Promise<Person | undefined> {
     const session = this.driver.session();
     const id = typeof person === 'number' ? person : person.properties.id;
 
@@ -183,16 +166,6 @@ export class DatabaseServiceImpl implements DatabaseService {
 
     try {
       await session.run('CREATE (p:Person $person)', { person });
-    } finally {
-      await session.close();
-    }
-  }
-
-  async createUser(user: UserProperties): Promise<void> {
-    const session = this.driver.session();
-
-    try {
-      await session.run('CREATE (u:User $user)', { user });
     } finally {
       await session.close();
     }
@@ -279,6 +252,35 @@ export class DatabaseServiceImpl implements DatabaseService {
         'MATCH (p:Person)-[r:PARTNER]-(partner:Person) WHERE p.id = $personId AND partner.id = $partnerId DELETE r',
         { personId: person.properties.id, partnerId: partner.properties.id }
       );
+    } finally {
+      await session.close();
+    }
+  }
+
+  async createUser(user: UserProperties): Promise<void> {
+    const session = this.driver.session();
+
+    try {
+      await session.run('CREATE (u:User $user)', { user });
+    } finally {
+      await session.close();
+    }
+  }
+
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    const session = this.driver.session();
+
+    try {
+      const result = await session.run(
+        'MATCH (u:User) WHERE u.email = $email RETURN u',
+        { email }
+      );
+
+      const user = result.records[0].get('u');
+
+      return user;
+    } catch {
+      return undefined;
     } finally {
       await session.close();
     }

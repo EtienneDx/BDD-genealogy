@@ -10,9 +10,7 @@ export default class TokenService {
     }
   }
 
-  public verifyToken<T extends Record<string, string>>(
-    token: string
-  ): T | boolean {
+  public verifyToken<T extends object>(token: string): T | boolean {
     try {
       const payload = jwt.verify(token, this.jwtSecret);
       if (typeof payload === 'string') {
@@ -24,7 +22,7 @@ export default class TokenService {
     }
   }
 
-  public generateToken(payload: Record<string, string>): string {
+  public generateToken(payload: object): string {
     return jwt.sign(payload, this.jwtSecret);
   }
 }

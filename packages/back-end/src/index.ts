@@ -27,6 +27,8 @@ export default function createApp(options: CreateAppOptions) {
   const app = express();
   app.databaseService = options.databaseService;
 
+  app.use(express.json());
+
   app.get('/', (_, res) => {
     res.json({ message: 'Hello World' });
   });

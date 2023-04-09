@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateAppOptions } from '..';
+import { TokenService } from '../services';
 
 export const authorizationMiddleware =
-  ({ tokenService }: CreateAppOptions) =>
+  ({ tokenService }: { tokenService: TokenService }) =>
   async (req: Request, res: Response, next: NextFunction) => {
     const { authorization } = req.headers;
     if (!authorization) {
