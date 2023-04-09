@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import styles from './app.module.scss';
+import { Link } from 'react-router-dom';
+import styles from './family-tree-page.module.scss';
 import FamilyTreeBuilder from './FamilyTreeBuilder';
 
 const family = [
@@ -130,6 +131,8 @@ function BarMenu(): JSX.Element {
     return (
       <div className={styles.container}>
         <BarMenu />
+        <Link to="/add-person">Add Person</Link>
+        <Link to="/login">Login</Link>
         <div>
           <FamilyTreeBuilder peoples={family} />
         </div>
