@@ -103,3 +103,18 @@ select {
   background-color: #ff0000;
   color: white;
 }
+
+.familytree {
+  display: flex;
+  width: 100px;
+  background-color: #007aff;
+  text-decoration: none;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  margin-right: 2rem;
+}

@@ -73,39 +73,39 @@ function BarMenu(): JSX.Element {
         <form onSubmit={handleSubmit}>
           <div className={styles.inputGroup}>
             <input
-              type="text"
-              id="name-input"
+              type='text'
+              id='name-input'
               className={styles.input}
-              placeholder="Name"
+              placeholder='Name'
               value={name}
               onChange={(event) => setName(event.target.value)}
             />
             <input
-              type="text"
-              id="surname-input"
+              type='text'
+              id='surname-input'
               className={styles.input}
-              placeholder="Surname"
+              placeholder='Surname'
               value={surname}
               onChange={(event) => setSurname(event.target.value)}
             />
             <input
-              type="number"
-              id="generations-input"
+              type='number'
+              id='generations-input'
               className={styles.input}
-              placeholder="Generations"
+              placeholder='Generations'
               value={generations}
               onChange={(event) => setGenerations(event.target.value)}
             />
-            <button type="submit" id="submit-btn" className={styles.button}>
+            <button type='submit' id='submit-btn' className={styles.button}>
               Submit
             </button>
           </div>
           <div className={styles.treeType}>
             <label>
               <input
-                type="radio"
-                name="tree-type"
-                value="ascendant"
+                type='radio'
+                name='tree-type'
+                value='ascendant'
                 checked={treeType === 'ascendant'}
                 onChange={(event) => setTreeType(event.target.value)}
               />
@@ -113,9 +113,9 @@ function BarMenu(): JSX.Element {
             </label>
             <label>
               <input
-                type="radio"
-                name="tree-type"
-                value="descendant"
+                type='radio'
+                name='tree-type'
+                value='descendant'
                 checked={treeType === 'descendant'}
                 onChange={(event) => setTreeType(event.target.value)}
               />
@@ -123,6 +123,7 @@ function BarMenu(): JSX.Element {
             </label>
           </div>
         </form>
+        <Link to='/login' className={styles.login}>Login</Link>
       </div>
     );
   }
@@ -131,8 +132,7 @@ function BarMenu(): JSX.Element {
     return (
       <div className={styles.container}>
         <BarMenu />
-        <Link to="/add-person">Add Person</Link>
-        <Link to="/login">Login</Link>
+        <Link to='/add-person' className={styles.add}>Add Person</Link>
         <div>
           <FamilyTreeBuilder peoples={family} />
         </div>

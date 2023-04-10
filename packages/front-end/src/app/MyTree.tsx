@@ -1,5 +1,5 @@
 import React, { Component, RefObject } from 'react';
-import FamilyTree from "@balkangraph/familytree.js";
+import FamilyTree from '@balkangraph/familytree.js';
 
 interface MyTreeProps {
   nodes: any[];
