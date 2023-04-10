@@ -1,6 +1,8 @@
+import supertest from 'supertest';
 import { DatabaseService } from '../../src/entities/database';
 import { Person } from '../../src/entities/person';
 import { expect, assert } from 'chai';
+import { Express } from 'express';
 
 export type Relationships = 'father' | 'mother' | 'child' | 'partner';
 
@@ -42,4 +44,21 @@ export const relationshipToCreatePersonKey = {
   partner: 'partner',
   mother: 'mother',
   father: 'father',
+};
+
+export const getTestRoute = (
+  app: Express | undefined,
+  method: string,
+  path: string
+) => {
+  switch (method) {
+    case 'post':
+      return supertest(app).post(path);
+    case 'put':
+      return supertest(app).put(path);
+    case 'get':
+      return supertest(app).get(path);
+    default:
+      assert.fail(`Unexpected method: ${method}`);
+  }
 };

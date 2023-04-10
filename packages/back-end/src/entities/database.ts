@@ -18,8 +18,8 @@ export interface DatabaseService {
   findChildren(id: number): Promise<Person[]>;
   findChildren(person: Person): Promise<Person[]>;
 
-  updatePerson(person: PersonProperties): Promise<void>;
-  createPerson(person: PersonProperties): Promise<void>;
+  updatePerson(person: Partial<PersonProperties>): Promise<void>;
+  createPerson(person: Partial<PersonProperties>): Promise<void>;
   setFather(person: Person, father: Person): Promise<void>;
   removeFather(person: Person): Promise<void>;
   setMother(person: Person, mother: Person): Promise<void>;
@@ -148,7 +148,7 @@ export class DatabaseServiceImpl implements DatabaseService {
     }
   }
 
-  async updatePerson(person: PersonProperties): Promise<void> {
+  async updatePerson(person: Partial<PersonProperties>): Promise<void> {
     const session = this.driver.session();
 
     try {
@@ -161,7 +161,7 @@ export class DatabaseServiceImpl implements DatabaseService {
     }
   }
 
-  async createPerson(person: PersonProperties): Promise<void> {
+  async createPerson(person: Partial<PersonProperties>): Promise<void> {
     const session = this.driver.session();
 
     try {
