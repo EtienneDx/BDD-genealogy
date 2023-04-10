@@ -13,13 +13,13 @@ type Person = {
 };
 
 type FamilyTreeProps = {
-  peoples: Person[];
+  people: Person[];
 };
 
-const FamilyTreeBuilder = ({ peoples }: FamilyTreeProps) => {
+const FamilyTreeBuilder = ({ people }: FamilyTreeProps) => {
   return (
     <div style={{ height: '100%' }}>
-      <FamilyTree nodes={peoples} />
+      <FamilyTree nodes={people} />
     </div>
   );
 };
