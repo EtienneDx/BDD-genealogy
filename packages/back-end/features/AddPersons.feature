@@ -13,28 +13,28 @@ Feature: Add persons
     And I should see a 200 status code
 
   Scenario: Add a partner
-    When I post a person named "Jimmy Doe" to "/person/0/partner" as connected user with id 0
+    When I post a person named "Jimmy Doe" whose "partner" is the person with id 0 to "/person" as connected user with id 0
     Then "Jimmy Doe" is saved in the database
-    And "Jimmy Doe" is the "partner" of the person of id 0
+    And "Jimmy Doe" is the "partner" of the person with id 0
     And I should see a 200 status code
 
 
   Scenario: Add a father
-    When I post a person named "John Doe" to "/person/0/father" as connected user with id 0
+    When I post a person named "John Doe" whose "father" is the person with id 0 to "/person" as connected user with id 0
     Then "John Doe" is saved in the database
-    And "John Doe" is the "father" of the person of id 0
+    And the person with id 0 is the "father" of "John Doe"
     And I should see a 200 status code
 
 
   Scenario: Add a mother
-    When I post a person named "Jimmy Doe" to "/person/0/mother" as connected user with id 0
+    When I post a person named "Jimmy Doe" whose "mother" is the person with id 0 to "/person" as connected user with id 0
     Then "Jimmy Doe" is saved in the database
-    And "Jimmy Doe" is the "mother" of the person of id 0
+    And the person with id 0 is the "mother" of "Jimmy Doe"
     And I should see a 200 status code
 
 
   Scenario: Add a child
-    When I post a person named "Timmy Doe" to "/person/0/child" as connected user with id 0
+    When I post a person named "Timmy Doe" whose "child" is the person with id 0 to "/person" as connected user with id 0
     Then "Timmy Doe" is saved in the database
-    And "Timmy Doe" is the "child" of the person of id 0
+    And the person with id 0 is the "child" of "Timmy Doe"
     And I should see a 200 status code

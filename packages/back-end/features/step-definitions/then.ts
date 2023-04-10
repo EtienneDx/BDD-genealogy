@@ -1,7 +1,9 @@
 import { Then } from '@cucumber/cucumber';
-import { expect, assert } from 'chai';
+import { expect } from 'chai';
 import World from './world';
 import { Person } from '../../src/entities/person';
+import { DatabaseServiceImpl } from '../../src/entities';
+import { findOnePersonByRelationship } from './helpers';
 
 Then(
   'I should see a {int} status code',
@@ -62,7 +64,7 @@ Then(
 );
 
 Then(
-  '{string} is the {string} of the person of id {int}',
+  '{string} is the {string} of the person with id {int}',
   async function (this: World, name: string, relationship: string, id: number) {
     if (this.parameters['mock-database'] === true) {
       // when mocking, we consider that the person is always found
@@ -72,29 +74,34 @@ Then(
     const person = await databaseService.findPersonById(id);
     expect(person).not.to.be.undefined;
 
-    let relatedPerson: Person;
-    switch (relationship) {
-      case 'father':
-        relatedPerson = await databaseService.findFather(id);
-        break;
-      case 'mother':
-        relatedPerson = await databaseService.findMother(id);
-        break;
-      case 'child':
-        const children = await databaseService.findChildren(id);
-        expect(children.length).to.equal(1);
-        relatedPerson = children[0];
-        break;
-      case 'partner':
-        const partners = await databaseService.findPartners(id);
-        expect(partners.length).to.equal(1);
-        relatedPerson = partners[0];
-        break;
-      default:
-        assert.fail(
-          'Expected father, child, mother or partner as relationship'
-        );
+    let relatedPerson = await findOnePersonByRelationship(
+      databaseService,
+      id,
+      relationship
+    );
+    expect(relatedPerson).to.not.be.undefined;
+    expect(relatedPerson.properties.name).to.be(name);
+  }
+);
+
+Then(
+  'the person with id {int} is the {string} of {string}',
+  async function (this: World, id: number, relationship: string, name: string) {
+    if (this.parameters['mock-database'] === true) {
+      // when mocking, we consider that the person is always found
+      return;
     }
+    const databaseService = new DatabaseServiceImpl(this.databaseDriver);
+    const persons = await databaseService.findPersonsByName(name);
+    expect(persons).not.to.be.undefined;
+    expect(persons).to.have.length(1);
+    const person = persons[0].properties;
+
+    let relatedPerson = await findOnePersonByRelationship(
+      databaseService,
+      person.id,
+      relationship
+    );
     expect(relatedPerson).to.not.be.undefined;
     expect(relatedPerson.properties.name).to.be(name);
   }
