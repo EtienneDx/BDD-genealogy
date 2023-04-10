@@ -12,10 +12,14 @@ export const findOnePersonByRelationship = async (
   let relatedPerson: Person;
   switch (relationship) {
     case 'father':
-      relatedPerson = await databaseService.findFather(personId);
+      const father = await databaseService.findFather(personId);
+      expect(father).not.to.be.undefined;
+      relatedPerson = father as Person;
       break;
     case 'mother':
-      relatedPerson = await databaseService.findMother(personId);
+      const mother = await databaseService.findMother(personId);
+      expect(mother).not.to.be.undefined;
+      relatedPerson = mother as Person;
       break;
     case 'child':
       const children = await databaseService.findChildren(personId);

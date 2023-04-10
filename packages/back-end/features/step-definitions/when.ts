@@ -3,8 +3,6 @@ import { expect } from 'chai';
 import supertest from 'supertest';
 import World from './world';
 import { DatabaseServiceImpl, PersonProperties } from '../../src/entities';
-import { CreatePerson } from '../../src/services/createPersonValidator';
-import { Relationships, relationshipToCreatePersonKey } from './helpers';
 
 When('I visit {string}', async function (this: World, path: string) {
   expect(this.app).not.to.be.undefined;
@@ -60,57 +58,5 @@ When(
           .send(JSON.parse(objectData));
         break;
     }
-  }
-);
-When(
-  'I post a person named {string} whose {string} is the person with id {int} to {string} as connected user with id {int}',
-  async function (
-    this: World,
-    name: string,
-    relationship: Relationships,
-    relatedId: number,
-    path: string,
-    userId: number
-  ) {
-    // TODO: use user id and create jwt Token
-    const jwtToken =
-      'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiaWQiOjAsImlhdCI6MTUxNjIzOTAyMn0._Lg12A5PSFc8xIb1sgHq1KAE9RHw7W1fgKq5n6QmCuY';
-
-    const newPerson: CreatePerson = { name };
-    const createPersonRelationshipKey =
-      relationshipToCreatePersonKey[relationship];
-
-    if (
-      createPersonRelationshipKey === 'children' ||
-      createPersonRelationshipKey === 'partner'
-    ) {
-      newPerson[createPersonRelationshipKey] = [{ id: relatedId }];
-    } else if (
-      createPersonRelationshipKey === 'father' ||
-      createPersonRelationshipKey === 'mother'
-    ) {
-      newPerson[createPersonRelationshipKey] = { id: relatedId };
-    }
-
-    await supertest(this.app)
-      .post(path)
-      .set('Authorization', jwtToken)
-      .send(newPerson);
-  }
-);
-
-When(
-  'I post a person named {string} to {string} as connected user with id {int}',
-  async function (this: World, name: string, path: string, userId: number) {
-    // TODO: use user id and create jwt Token
-    const jwtToken =
-      'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiaWQiOjAsImlhdCI6MTUxNjIzOTAyMn0._Lg12A5PSFc8xIb1sgHq1KAE9RHw7W1fgKq5n6QmCuY';
-
-    const newPerson: CreatePerson = { name };
-
-    await supertest(this.app)
-      .post(path)
-      .set('Authorization', jwtToken)
-      .send(newPerson);
   }
 );

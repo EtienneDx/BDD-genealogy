@@ -2,7 +2,11 @@ import { Given } from '@cucumber/cucumber';
 import sinon from 'sinon';
 import createApp from '../../src';
 import World from './world';
-import { DatabaseServiceImpl, UserProperties } from '../../src/entities';
+import {
+  DatabaseServiceImpl,
+  PersonProperties,
+  UserProperties,
+} from '../../src/entities';
 import { PasswordService, TokenService } from '../../src/services';
 
 Given('a running app', async function (this: World) {
@@ -56,14 +60,21 @@ Given(
     await databaseService.createUser(user);
   }
 );
+Given(
+  'an existing person {string}',
+  async function (this: World, personData: string) {
+    if (this.parameters['mock-database'] === true) {
+      return;
+    }
+    const databaseService = new DatabaseServiceImpl(this.databaseDriver);
 
-Given('a person with id {int}', async function (this: World, id: number) {
-  if (!this.app) throw new Error('Set a running app first!');
-  if (this.parameters['mock-database'] === true) {
-    // when mocking, we consider that the person is successfully added
-    return;
+    const person: PersonProperties = JSON.parse(personData);
+    if (person.id === undefined) {
+      person.id = this.idCounter++;
+    } else {
+      this.idCounter = person.id + 1;
+    }
+
+    await databaseService.createPerson(person);
   }
-
-  this.app.databaseService.createPerson({ id });
-  return;
-});
+);
