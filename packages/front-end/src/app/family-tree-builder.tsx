@@ -1,4 +1,4 @@
-import FamilyTree from './MyTree';
+import FamilyTree from './my-tree';
 
 type Person = {
   id: number;

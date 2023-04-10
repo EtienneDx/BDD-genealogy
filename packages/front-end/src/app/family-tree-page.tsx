@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styles from './family-tree-page.module.scss';
-import FamilyTreeBuilder from './FamilyTreeBuilder';
+import FamilyTreeBuilder from './family-tree-builder';
 import BarMenu from './bar-menu';
 
 const family = [
