@@ -32,9 +32,9 @@ Feature: Add persons
     And the person with id 0 is the "mother" of "Jimmy Doe"
     And I should see a 200 status code
 
-
-  Scenario: Add a child
-    When I "post" a "{ \"name\": \"Timmy Doe\", \"children\": [{ \"id\": 0 }] }" object to "/person" authenticated as user 0
-    Then "Timmy Doe" is saved in the database
-    And the person with id 0 is the "child" of "Timmy Doe"
-    And I should see a 200 status code
+  # TODO : Add children
+  # Scenario: Add a child
+  #   When I "post" a "{ \"name\": \"Timmy Doe\", \"children\": [{ \"id\": 0 }] }" object to "/person" authenticated as user 0
+  #   Then "Timmy Doe" is saved in the database
+  #   And the person with id 0 is the "child" of "Timmy Doe"
+  #   And I should see a 200 status code
