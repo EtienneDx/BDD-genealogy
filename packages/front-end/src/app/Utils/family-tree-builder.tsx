@@ -1,16 +1,5 @@
 import FamilyTree from './my-tree';
-
-type Person = {
-  id: number;
-  pids?: number[];
-  mid?: number;
-  fid?: number;
-  name?: string;
-  gender?: string;
-  img?: string;
-  birthDate?: string;
-  deathDate?: string;
-};
+import { Person } from './person';
 
 type FamilyTreeProps = {
   people: Person[];

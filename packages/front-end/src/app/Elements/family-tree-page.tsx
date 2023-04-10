@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styles from './family-tree-page.module.scss';
-import FamilyTreeBuilder from './family-tree-builder';
+import FamilyTreeBuilder from '../Utils/family-tree-builder';
 import BarMenu from './bar-menu';
 
 const family = [
@@ -52,7 +52,7 @@ const family = [
         <BarMenu />
         <Link to='/add-person' className={styles.add}>Add Person</Link>
         <div>
-          <FamilyTreeBuilder peoples={family} />
+          <FamilyTreeBuilder people={family} />
         </div>
       </div>
     );

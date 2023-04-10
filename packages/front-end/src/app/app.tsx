@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import AddPerson from './add-person-page';
-import FamilyTreeDisplay from './family-tree-page';
-import Login from './login-page';
-import Register from './register-page';
+import AddPerson from './Elements/add-person-page';
+import FamilyTreeDisplay from './Elements/family-tree-page';
+import Login from './Elements/login-page';
+import Register from './Elements/register-page';
 
 export function App(): JSX.Element {
   return (
