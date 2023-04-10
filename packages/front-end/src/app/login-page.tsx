@@ -15,7 +15,7 @@ export function Login(): JSX.Element {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${authToken}`,
           },
-          body: JSON.stringify({ email, password}),
+          body: JSON.stringify({ email, password }),
         });
         const data = await response.json();
         console.log(data);
