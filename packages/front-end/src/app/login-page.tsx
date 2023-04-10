@@ -8,17 +8,15 @@ export function Login(): JSX.Element {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       try {
-        const authToken = localStorage.getItem('authToken');
         const response = await fetch('/login', {
           method: 'POST',
           headers: { 
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken}`,
           },
           body: JSON.stringify({ email, password}),
         });
         const data = await response.json();
-        console.log(data);
+        localStorage.setItem('authToken', data.token);
       } catch (error) {
         console.error(error);
       }
