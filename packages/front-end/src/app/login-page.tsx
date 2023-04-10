@@ -13,7 +13,7 @@ export function Login(): JSX.Element {
           headers: { 
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ email, password}),
+          body: JSON.stringify({ email, password }),
         });
         const data = await response.json();
         localStorage.setItem('authToken', data.token);
