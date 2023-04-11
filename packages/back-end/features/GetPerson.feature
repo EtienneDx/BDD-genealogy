@@ -47,7 +47,7 @@ Feature: get person information from the database
       """
 
   Scenario: getting an invalid personn information by name
-    When I visit 'getPerson/name/John Doe'
+    When I visit '/getPerson/name/John Doe'
     Then I should see a 404 status code
     And I should see a "error" field containing "Person not found"
 
