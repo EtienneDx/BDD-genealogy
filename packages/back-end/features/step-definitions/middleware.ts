@@ -1,7 +1,6 @@
 import { Given, When, Then } from '@cucumber/cucumber';
 import World from './world';
 import { authorizationMiddleware } from '../../src/middlewares';
-import { DatabaseServiceImpl } from '../../src/entities';
 import sinon from 'sinon';
 import { TokenService } from '../../src/services';
 import { Request, Response } from 'express';

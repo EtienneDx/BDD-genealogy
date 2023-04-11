@@ -1,7 +1,6 @@
 import { Then } from '@cucumber/cucumber';
 import { expect } from 'chai';
 import World from './world';
-import { Person } from '../../src/entities/person';
 import { DatabaseServiceImpl } from '../../src/entities';
 import { findOnePersonByRelationship } from './helpers';
 
@@ -48,7 +47,7 @@ Then(
 );
 
 Then(
-  '{string} is saved in the database',
+  'the person {string} is saved in the database',
   async function (this: World, name: string) {
     if (this.parameters['mock-database'] === true) {
       // when mocking, we consider that the person is always found
@@ -74,7 +73,7 @@ Then(
     const person = await databaseService.findPersonById(id);
     expect(person).not.to.be.undefined;
 
-    let relatedPerson = await findOnePersonByRelationship(
+    const relatedPerson = await findOnePersonByRelationship(
       databaseService,
       id,
       relationship
@@ -97,7 +96,7 @@ Then(
     expect(persons).to.have.length(1);
     const person = persons[0].properties;
 
-    let relatedPerson = await findOnePersonByRelationship(
+    const relatedPerson = await findOnePersonByRelationship(
       databaseService,
       person.id,
       relationship

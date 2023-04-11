@@ -88,3 +88,12 @@ Given(
     await databaseService.createPerson(person);
   }
 );
+
+Given(
+  'I am an authenticated user {int}',
+  function (this: World, userId: number) {
+    const tokenService = new TokenService('JWT_SECRET');
+    const jwtToken = tokenService.generateToken({ id: userId });
+    this.requestHeaders['authorization'] = `Bearer ${jwtToken}`;
+  }
+);

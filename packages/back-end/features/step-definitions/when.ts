@@ -41,30 +41,12 @@ When(
     expect(this.app).not.to.be.undefined;
     expect(method).to.be.oneOf(['post', 'put', 'get']);
 
-    this.response = await getTestRoute(this.app, method, path).send(
-      JSON.parse(objectData)
-    );
-  }
-);
+    const testRoute = getTestRoute(this.app, method, path);
 
-When(
-  // When I "post/get/put" a "jsonData" object to "path" authenticated as user "userId"
-  'I {string} a {string} object to {string} authenticated as user {int}',
-  async function (
-    this: World,
-    method: string,
-    objectData: string,
-    path: string,
-    userId: number
-  ) {
-    expect(this.app).not.to.be.undefined;
-    expect(method).to.be.oneOf(['post', 'put', 'get']);
+    const getResponse = this.requestHeaders
+      ? testRoute.set(this.requestHeaders).send(JSON.parse(objectData))
+      : testRoute.send(JSON.parse(objectData));
 
-    const tokenService = new TokenService('JWT_SECRET');
-    const jwtToken = tokenService.generateToken({ id: userId });
-
-    this.response = await getTestRoute(this.app, method, path)
-      .set('Authorization', `Bearer ${jwtToken}`)
-      .send(JSON.parse(objectData));
+    this.response = await getResponse;
   }
 );
