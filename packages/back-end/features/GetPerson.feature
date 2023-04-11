@@ -28,7 +28,7 @@ Feature: get person information from the database
       """
 
   Scenario: getting an invalid personn information by id
-    When I visit 'getPerson/id/2'
+    When I visit '/getPerson/id/2'
     Then I should see a 404 status code
     And I should see a "error" field containing "Person not found"
 
