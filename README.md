@@ -5,6 +5,7 @@
 This workspace is an [Nx](https://nx.dev) monorepo. It contains multiple apps and libraries.
 
 Our specific worspace holds two projects:
+
 - `front-end`: A React typescript application holding the view part of the application
 - `back-end`: An express-js typescript application holding the business logic of the application
 
@@ -12,8 +13,8 @@ Our specific worspace holds two projects:
 
 After cloning the repository, run `npm ci` (clean install) to install all dependencies with the persisted versions.
 
-To run the front-end, you can use the Nx cli: `npx nx serve front-end --configuration=development`
-To run the back-end, you can use the Nx cli: `npx nx serve back-end --configuration=development`
+To run the front-end, you can use the Nx cli: `npx nx start front-end --configuration=development`
+To run the back-end, you can use the Nx cli: `npx nx start back-end --configuration=development`
 
 ## Behavior driven development
 
@@ -34,6 +35,21 @@ Run `npx nx test back-end` to run the unit tests for the back-end.
 Run `npx nx start front-end` to start the front-end.
 
 Run `npx nx start back-end` to start the back-end.
+
+The back end uses a neo4j database. You can start it using docker-compose with the following command: `docker-compose up`
+
+## Linting the project
+
+Run `npx nx run front-end:lint` to lint the front-end.
+
+Run `npx nx run back-end:lint` to lint the back-end.
+
+### Linting the project with auto-fix
+
+Run `npx nx run front-end:lint --fix` to lint the front-end with auto-fix.
+
+Run `npx nx run back-end:lint --fix` to lint the back-end with auto-fix.
+
 
 ## Further help
 
