@@ -22,9 +22,12 @@ export const registerUser =
       password,
     };
 
-    const userProperties = await databaseService
-      .createUser(user)
-      .then((user) => user?.properties);
+    const resUser = await databaseService.createUser(user);
+    if (resUser === undefined) {
+      res.status(500).json({ message: 'Database server error.' });
+      return;
+    }
+    const userProperties = resUser.properties;
 
     const token = tokenService.generateToken({
       id: userProperties.id,
@@ -32,6 +35,5 @@ export const registerUser =
       email: userProperties.email,
     });
 
-    res.status(200);
-    res.json({ token });
+    res.status(200).json({ token });
   };

@@ -27,7 +27,7 @@ export interface DatabaseService {
   addPartner(person: Person, partner: Person): Promise<void>;
   removePartner(person: Person, partner: Person): Promise<void>;
 
-  createUser(user: Partial<UserProperties>): Promise<User>;
+  createUser(user: Partial<UserProperties>): Promise<User | undefined>;
   getUserByEmail(email: string): Promise<User | undefined>;
 }
 
@@ -264,7 +264,7 @@ export class DatabaseServiceImpl implements DatabaseService {
     }
   }
 
-  async createUser(user: Partial<UserProperties>): Promise<User> {
+  async createUser(user: Partial<UserProperties>): Promise<User | undefined> {
     const session = this.driver.session();
 
     try {
@@ -272,8 +272,9 @@ export class DatabaseServiceImpl implements DatabaseService {
         user,
       });
       const createdUser = result.records[0].get('u');
-      if (!createdUser) throw new Error('Could not create user.');
       return createdUser;
+    } catch {
+      return undefined;
     } finally {
       await session.close();
     }
@@ -292,7 +293,6 @@ export class DatabaseServiceImpl implements DatabaseService {
 
       return user;
     } catch {
-      throw new Error('Could not find user.');
       return undefined;
     } finally {
       await session.close();

@@ -33,21 +33,6 @@ When(
 );
 
 When(
-  'I register as new user {string}',
-  async function (this: World, data: string) {
-    if (this.parameters['mock-database'] === true) {
-      // when mocking, we consider that the person is successfully added
-      return;
-    }
-
-    const user: Partial<UserProperties> = JSON.parse(data);
-
-    const databaseService = new DatabaseServiceImpl(this.databaseDriver);
-    await databaseService.createUser(user);
-  }
-);
-
-When(
   // When I "post/get/put" a "jsonData" object to "path"
   'I {string} a {string} object to {string}',
   async function (

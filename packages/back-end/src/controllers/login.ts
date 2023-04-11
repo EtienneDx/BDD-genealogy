@@ -19,9 +19,12 @@ export const loginUser =
 
     const { email, password } = req.body;
 
-    const userProperties = await databaseService
-      .getUserByEmail(email)
-      .then((user) => user?.properties);
+    const resUser = await databaseService.getUserByEmail(email);
+    if (resUser === undefined) {
+      res.status(500).json({ message: 'Database server error.' });
+      return;
+    }
+    const userProperties = resUser.properties;
 
     if (userProperties === undefined) {
       res.status(403).json({ message: 'Invalid credentials' });
