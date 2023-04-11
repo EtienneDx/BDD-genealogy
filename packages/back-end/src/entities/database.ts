@@ -165,7 +165,12 @@ export class DatabaseServiceImpl implements DatabaseService {
     const session = this.driver.session();
 
     try {
-      const result = await session.run('CREATE (p:Person $person)', { person });
+      const result = await session.run(
+        'CREATE (p:Person $person) SET p.id = ID(p) RETURN p',
+        {
+          person,
+        }
+      );
       const createdPerson = result.records[0].get('p');
       return createdPerson;
     } finally {
