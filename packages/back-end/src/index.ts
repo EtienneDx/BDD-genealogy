@@ -14,12 +14,6 @@ import {
   getPersonsByName,
 } from './controllers/person';
 
-declare module 'express-serve-static-core' {
-  export interface Express {
-    databaseService: DatabaseService;
-  }
-}
-
 declare module 'express' {
   export interface Request {
     user?: {
@@ -37,7 +31,6 @@ export type CreateAppOptions = {
 };
 export default function createApp(options: CreateAppOptions) {
   const app = express();
-  app.databaseService = options.databaseService;
 
   app.use(express.json());
 

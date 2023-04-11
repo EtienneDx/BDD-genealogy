@@ -50,7 +50,6 @@ Then(
     expect(this.response?.body[field]).to.be.an('array');
     let found = false;
     this.response?.body[field].forEach((element: object) => {
-      console.log(element, JSON.parse(value));
       if (expect(element).to.contain(JSON.parse(value))) {
         found = true;
       }
@@ -112,7 +111,7 @@ Then(
       relationship
     );
     expect(relatedPerson).to.not.be.undefined;
-    expect(relatedPerson.properties.name).to.be(name);
+    expect(relatedPerson.properties.name).to.equal(name);
   }
 );
 
@@ -135,6 +134,6 @@ Then(
       relationship
     );
     expect(relatedPerson).to.not.be.undefined;
-    expect(relatedPerson.properties.name).to.be(name);
+    expect(relatedPerson.properties.id).to.equal(id);
   }
 );

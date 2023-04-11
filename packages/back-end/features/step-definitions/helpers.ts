@@ -13,26 +13,30 @@ export const findOnePersonByRelationship = async (
 ) => {
   let relatedPerson: Person;
   switch (relationship) {
-    case 'father':
+    case 'father': {
       const father = await databaseService.findFather(personId);
       expect(father).not.to.be.undefined;
       relatedPerson = father as Person;
       break;
-    case 'mother':
+    }
+    case 'mother': {
       const mother = await databaseService.findMother(personId);
       expect(mother).not.to.be.undefined;
       relatedPerson = mother as Person;
       break;
-    case 'child':
+    }
+    case 'child': {
       const children = await databaseService.findChildren(personId);
       expect(children.length).to.equal(1);
       relatedPerson = children[0];
       break;
-    case 'partner':
+    }
+    case 'partner': {
       const partners = await databaseService.findPartners(personId);
       expect(partners.length).to.equal(1);
       relatedPerson = partners[0];
       break;
+    }
     default:
       assert.fail('Expected father, child, mother or partner as relationship');
   }
