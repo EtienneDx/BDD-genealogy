@@ -1,7 +1,7 @@
 Feature: get personn information from the database
 
 
-  As an indentified person I want to get a person
+  As an identified user I want to get a person So that I can display and modify his informations
 
 
   Background:
