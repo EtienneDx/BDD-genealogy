@@ -2,10 +2,11 @@ const dotenv = require('dotenv');
 const os = require('os');
 dotenv.config();
 
-const CPU_COUNT = os.cpus().length;
+const CPU_COUNT = 1; //os.cpus().length;
 const IS_DEV = process.env.NODE_ENV === 'development';
 const FAIL_FAST = IS_DEV ? ['--fail-fast'] : [];
-const FORMAT = process.env.CI || !process.stdout.isTTY ? 'progress' : 'progress-bar';
+const FORMAT =
+  process.env.CI || !process.stdout.isTTY ? 'progress' : 'progress-bar';
 
 const DEFAULT_OPTIONS = [
   './features/*.feature',
@@ -20,6 +21,7 @@ const DEFAULT_OPTIONS = [
   // Test
   // '--require ./features/worlds/index.ts',
   '--require ./features/step-definitions/index.ts',
+  '--publish-quiet',
 ].join(' ');
 
 module.exports = {

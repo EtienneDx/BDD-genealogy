@@ -2,12 +2,20 @@ import { DatabaseService } from '../entities/database';
 import { CreatePerson } from './personCreationValidation';
 
 export default class PersonCreationService {
+  private maxJavascriptInt = Number.MAX_SAFE_INTEGER;
+  private maxNeo4JInt = Math.pow(2, 63) - 1;
+
   public async addPerson(
     databaseService: DatabaseService,
     person: CreatePerson
   ) {
     const { children, partner, mother, father, ...newPerson } = person;
-    const savedPerson = await databaseService.createPerson(newPerson);
+    const savedPerson = await databaseService.createPerson({
+      ...newPerson,
+      id: Math.floor(
+        Math.random() * Math.min(this.maxJavascriptInt, this.maxNeo4JInt)
+      ),
+    });
     if (father) {
       const savedFather = await databaseService.findPersonById(father.id);
       if (!savedFather) throw Error('Father not found.');

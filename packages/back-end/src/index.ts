@@ -8,13 +8,11 @@ import {
   TokenService,
 } from './services';
 import loginController from './controllers/login';
-import { createPerson } from './controllers/person';
-
-declare module 'express-serve-static-core' {
-  export interface Express {
-    databaseService: DatabaseService;
-  }
-}
+import {
+  createPerson,
+  getPersonById,
+  getPersonsByName,
+} from './controllers/person';
 
 declare module 'express' {
   export interface Request {
@@ -33,7 +31,6 @@ export type CreateAppOptions = {
 };
 export default function createApp(options: CreateAppOptions) {
   const app = express();
-  app.databaseService = options.databaseService;
 
   app.use(express.json());
 
@@ -44,6 +41,9 @@ export default function createApp(options: CreateAppOptions) {
   app.use(authorizationMiddleware(options));
 
   app.post('/person', createPerson(options));
+
+  app.get('/person/id/:id', getPersonById(options));
+  app.get('/person/name/:name', getPersonsByName(options));
 
   return app;
 }
