@@ -17,7 +17,7 @@ Feature: get person information from the database
     And an authenticated user
 
   Scenario: getting an existing personn information by id
-    When I visit 'getPerson/id/1'
+    When I visit '/getPerson/id/1'
     Then I should see a 200 status code
     And I should see a "person" field containing
       """
