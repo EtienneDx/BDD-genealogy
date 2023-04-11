@@ -36,7 +36,7 @@ Feature: get person information from the database
 
 
   Scenario: getting an existing personn information by name
-    When I visit 'getPerson/name/John Doe'
+    When I visit '/getPerson/name/John Doe'
     Then I should see a 200 status code
     And I should see a "person" field containing
       """
