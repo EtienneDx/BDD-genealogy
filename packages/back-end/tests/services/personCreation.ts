@@ -1,4 +1,4 @@
-import { CreatePerson } from '../../src/services/createPersonValidator';
+import { CreatePerson } from '../../src/services/personCreationValidation';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { PersonCreationService } from '../../src/services';
