@@ -3,7 +3,7 @@ import { Express as ExpressApp } from 'express-serve-static-core';
 import supertest from 'supertest';
 import neo4j, { Driver } from 'neo4j-driver';
 import sinon from 'sinon';
-import { UserProperties } from '../../src/entities';
+import { DatabaseServiceImpl, UserProperties } from '../../src/entities';
 import { Request } from 'express';
 
 process.env['NODE_ENV'] = 'test';
@@ -16,6 +16,7 @@ export default class MyWorld extends World<WorldParameters> {
   app?: ExpressApp;
   response?: supertest.Response;
   databaseDriver: Driver;
+  mockDatabaseService?: sinon.SinonStubbedInstance<DatabaseServiceImpl>;
   idCounter = 0;
   user?: UserProperties;
   requestHeaders: Record<string, string> = {};

@@ -2,8 +2,18 @@ import { Given } from '@cucumber/cucumber';
 import sinon from 'sinon';
 import createApp from '../../src';
 import World from './world';
-import { DatabaseServiceImpl, UserProperties } from '../../src/entities';
-import { PasswordService, TokenService } from '../../src/services';
+import {
+  DatabaseServiceImpl,
+  Person,
+  PersonProperties,
+  UserProperties,
+} from '../../src/entities';
+import {
+  PasswordService,
+  PersonCreationService,
+  PersonCreationValidationService,
+  TokenService,
+} from '../../src/services';
 
 Given('a running app', async function (this: World) {
   return new Promise<void>((resolve, reject) => {
@@ -12,7 +22,19 @@ Given('a running app', async function (this: World) {
       : new DatabaseServiceImpl(this.databaseDriver);
     const tokenService = new TokenService('JWT_SECRET');
     const passwordService = new PasswordService();
-    this.app = createApp({ databaseService, tokenService, passwordService });
+    const personCreationService = new PersonCreationService();
+    const personCreationValidationService =
+      new PersonCreationValidationService();
+    this.app = createApp({
+      databaseService,
+      tokenService,
+      passwordService,
+      personCreationService,
+      personCreationValidationService,
+    });
+    if (this.parameters['mock-database'])
+      this.mockDatabaseService =
+        databaseService as sinon.SinonStubbedInstance<DatabaseServiceImpl>;
     this.app.listen(function (err: unknown) {
       if (err) {
         return reject(err);
@@ -54,5 +76,35 @@ Given(
     }
 
     await databaseService.createUser(user);
+  }
+);
+Given(
+  'an existing person {string}',
+  async function (this: World, personData: string) {
+    const person: PersonProperties = JSON.parse(personData);
+    if (this.parameters['mock-database'] === true && this.mockDatabaseService) {
+      this.mockDatabaseService.findPersonById.withArgs(person.id).resolves({
+        properties: person,
+      } as Person);
+      return;
+    }
+    const databaseService = new DatabaseServiceImpl(this.databaseDriver);
+
+    if (person.id === undefined) {
+      person.id = this.idCounter++;
+    } else {
+      this.idCounter = person.id + 1;
+    }
+
+    await databaseService.createPerson(person);
+  }
+);
+
+Given(
+  'I am an authenticated user {int}',
+  function (this: World, userId: number) {
+    const tokenService = new TokenService('JWT_SECRET');
+    const jwtToken = tokenService.generateToken({ id: userId });
+    this.requestHeaders['authorization'] = `Bearer ${jwtToken}`;
   }
 );

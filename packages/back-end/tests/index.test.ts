@@ -3,19 +3,32 @@ import { Express as ExpressApp } from 'express-serve-static-core';
 import { expect } from './test-helper';
 import createApp from '../src';
 import { DatabaseServiceImpl } from '../src/entities';
-import { Driver } from 'neo4j-driver';
-import Sinon from 'sinon';
-import { PasswordService, TokenService } from '../src/services';
+import {
+  PasswordService,
+  PersonCreationService,
+  PersonCreationValidationService,
+  TokenService,
+} from '../src/services';
+import sinon from 'sinon';
 
 describe('App', () => {
   let app: ExpressApp;
 
   before((done) => {
-    const driver = Sinon.createStubInstance(Driver);
-    const databaseService = new DatabaseServiceImpl(driver);
+    const databaseService = sinon.createStubInstance(DatabaseServiceImpl);
     const tokenService = new TokenService('JWT_SECRET');
     const passwordService = new PasswordService();
-    app = createApp({ databaseService, tokenService, passwordService });
+    const personCreationService = new PersonCreationService();
+    const personCreationValidationService =
+      new PersonCreationValidationService();
+
+    app = createApp({
+      databaseService,
+      tokenService,
+      passwordService,
+      personCreationService,
+      personCreationValidationService,
+    });
     app.listen(function (err: unknown) {
       if (err) {
         return done(err);

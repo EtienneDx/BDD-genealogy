@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import supertest from 'supertest';
 import World from './world';
 import { DatabaseServiceImpl, PersonProperties } from '../../src/entities';
+import { getTestRoute } from './helpers';
 
 When('I visit {string}', async function (this: World, path: string) {
   expect(this.app).not.to.be.undefined;
@@ -16,13 +17,13 @@ When(
       // when mocking, we consider that the person is successfully added
       return;
     }
-    const databaseService = new DatabaseServiceImpl(this.databaseDriver);
 
     const person: PersonProperties = {
       id: this.idCounter++,
       name,
     };
 
+    const databaseService = new DatabaseServiceImpl(this.databaseDriver);
     await databaseService.createPerson(person);
   }
 );
@@ -39,24 +40,12 @@ When(
     expect(this.app).not.to.be.undefined;
     expect(method).to.be.oneOf(['post', 'put', 'get']);
 
-    switch (method) {
-      case 'post':
-        this.response = await supertest(this.app)
-          .post(path)
-          .send(JSON.parse(objectData));
-        break;
+    const testRoute = getTestRoute(this.app, method, path);
 
-      case 'put':
-        this.response = await supertest(this.app)
-          .put(path)
-          .send(JSON.parse(objectData));
-        break;
+    const getResponse = this.requestHeaders
+      ? testRoute.set(this.requestHeaders).send(JSON.parse(objectData))
+      : testRoute.send(JSON.parse(objectData));
 
-      case 'get':
-        this.response = await supertest(this.app)
-          .get(path)
-          .send(JSON.parse(objectData));
-        break;
-    }
+    this.response = await getResponse;
   }
 );
