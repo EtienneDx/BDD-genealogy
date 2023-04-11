@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './add-person.module.scss';
+import backendUrl from '../Utils/backend-service';
 
 function AddPerson(): JSX.Element {
   const [children, setChildren] = useState<string[]>([]);
@@ -41,7 +42,7 @@ function AddPerson(): JSX.Element {
       children,
     };
     try {
-      const response = await fetch('/add-person', {
+      const response = await fetch(backendUrl() + '/add-person', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
