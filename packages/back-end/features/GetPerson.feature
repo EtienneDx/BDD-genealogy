@@ -1,4 +1,4 @@
-Feature: get personn information from the database
+Feature: get person information from the database
 
 
   As an identified user I want to get a person So that I can display and modify his informations
