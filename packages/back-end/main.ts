@@ -4,6 +4,7 @@ import neo4j from 'neo4j-driver';
 import {
   PasswordService,
   PersonCreationService,
+  PersonCreationValidationService,
   TokenService,
 } from './src/services';
 
@@ -15,11 +16,14 @@ const tokenService = new TokenService(
 );
 const passwordService = new PasswordService();
 const personCreationService = new PersonCreationService();
+const personCreationValidationService = new PersonCreationValidationService();
+
 const app = createApp({
   databaseService,
   tokenService,
   passwordService,
   personCreationService,
+  personCreationValidationService,
 });
 
 app.listen(3000, () => {

@@ -6,6 +6,7 @@ import { DatabaseServiceImpl } from '../src/entities';
 import {
   PasswordService,
   PersonCreationService,
+  PersonCreationValidationService,
   TokenService,
 } from '../src/services';
 import sinon from 'sinon';
@@ -18,12 +19,15 @@ describe('App', () => {
     const tokenService = new TokenService('JWT_SECRET');
     const passwordService = new PasswordService();
     const personCreationService = new PersonCreationService();
+    const personCreationValidationService =
+      new PersonCreationValidationService();
 
     app = createApp({
       databaseService,
       tokenService,
       passwordService,
       personCreationService,
+      personCreationValidationService,
     });
     app.listen(function (err: unknown) {
       if (err) {

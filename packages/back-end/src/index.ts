@@ -4,6 +4,7 @@ import { authorizationMiddleware } from './middlewares';
 import {
   PasswordService,
   PersonCreationService,
+  PersonCreationValidationService,
   TokenService,
 } from './services';
 import loginController from './controllers/login';
@@ -28,6 +29,7 @@ export type CreateAppOptions = {
   tokenService: TokenService;
   passwordService: PasswordService;
   personCreationService: PersonCreationService;
+  personCreationValidationService: PersonCreationValidationService;
 };
 export default function createApp(options: CreateAppOptions) {
   const app = express();

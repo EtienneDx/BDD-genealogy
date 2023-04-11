@@ -4,7 +4,6 @@ import supertest from 'supertest';
 import World from './world';
 import { DatabaseServiceImpl, PersonProperties } from '../../src/entities';
 import { getTestRoute } from './helpers';
-import { TokenService } from '../../src/services';
 
 When('I visit {string}', async function (this: World, path: string) {
   expect(this.app).not.to.be.undefined;

@@ -4,12 +4,14 @@ import createApp from '../../src';
 import World from './world';
 import {
   DatabaseServiceImpl,
+  Person,
   PersonProperties,
   UserProperties,
 } from '../../src/entities';
 import {
   PasswordService,
   PersonCreationService,
+  PersonCreationValidationService,
   TokenService,
 } from '../../src/services';
 
@@ -21,12 +23,18 @@ Given('a running app', async function (this: World) {
     const tokenService = new TokenService('JWT_SECRET');
     const passwordService = new PasswordService();
     const personCreationService = new PersonCreationService();
+    const personCreationValidationService =
+      new PersonCreationValidationService();
     this.app = createApp({
       databaseService,
       tokenService,
       passwordService,
       personCreationService,
+      personCreationValidationService,
     });
+    if (this.parameters['mock-database'])
+      this.mockDatabaseService =
+        databaseService as sinon.SinonStubbedInstance<DatabaseServiceImpl>;
     this.app.listen(function (err: unknown) {
       if (err) {
         return reject(err);
@@ -73,12 +81,15 @@ Given(
 Given(
   'an existing person {string}',
   async function (this: World, personData: string) {
-    if (this.parameters['mock-database'] === true) {
+    const person: PersonProperties = JSON.parse(personData);
+    if (this.parameters['mock-database'] === true && this.mockDatabaseService) {
+      this.mockDatabaseService.findPersonById.withArgs(person.id).resolves({
+        properties: person,
+      } as Person);
       return;
     }
     const databaseService = new DatabaseServiceImpl(this.databaseDriver);
 
-    const person: PersonProperties = JSON.parse(personData);
     if (person.id === undefined) {
       person.id = this.idCounter++;
     } else {
