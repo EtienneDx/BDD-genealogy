@@ -1,5 +1,4 @@
-import { Request, Response, Express } from 'express';
-import { DatabaseService } from '../entities/database';
+import { Request, Response } from 'express';
 import { CreateAppOptions } from '..';
 
 export const createPerson =
