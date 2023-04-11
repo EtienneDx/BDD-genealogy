@@ -8,7 +8,11 @@ import {
   TokenService,
 } from './services';
 import loginController from './controllers/login';
-import { createPerson } from './controllers/person';
+import {
+  createPerson,
+  getPersonById,
+  getPersonsByName,
+} from './controllers/person';
 
 declare module 'express-serve-static-core' {
   export interface Express {
@@ -44,6 +48,9 @@ export default function createApp(options: CreateAppOptions) {
   app.use(authorizationMiddleware(options));
 
   app.post('/person', createPerson(options));
+
+  app.get('/person/id/:id', getPersonById(options));
+  app.get('/person/name/:name', getPersonsByName(options));
 
   return app;
 }

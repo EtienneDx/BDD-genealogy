@@ -148,7 +148,9 @@ export class DatabaseServiceImpl implements DatabaseService {
     }
   }
 
-  async updatePerson(person: Partial<PersonProperties>): Promise<void> {
+  async updatePerson(
+    person: Partial<PersonProperties> & { id: number }
+  ): Promise<void> {
     const session = this.driver.session();
 
     try {
@@ -165,12 +167,9 @@ export class DatabaseServiceImpl implements DatabaseService {
     const session = this.driver.session();
 
     try {
-      const result = await session.run(
-        'CREATE (p:Person $person) SET p.id = ID(p) RETURN p',
-        {
-          person,
-        }
-      );
+      const result = await session.run('CREATE (p:Person $person) RETURN p', {
+        person,
+      });
       const createdPerson = result.records[0].get('p');
       return createdPerson;
     } finally {
@@ -188,7 +187,10 @@ export class DatabaseServiceImpl implements DatabaseService {
       );
       await session.run(
         'MATCH (p:Person), (f:Person) WHERE p.id = $personId AND f.id = $fatherId CREATE (p)-[:FATHER]->(f)',
-        { personId: person.properties.id, fatherId: father.properties.id }
+        {
+          personId: person.properties.id,
+          fatherId: father.properties.id,
+        }
       );
     } finally {
       await session.close();
@@ -218,7 +220,10 @@ export class DatabaseServiceImpl implements DatabaseService {
       );
       await session.run(
         'MATCH (p:Person), (m:Person) WHERE p.id = $personId AND m.id = $motherId CREATE (p)-[:MOTHER]->(m)',
-        { personId: person.properties.id, motherId: mother.properties.id }
+        {
+          personId: person.properties.id,
+          motherId: mother.properties.id,
+        }
       );
     } finally {
       await session.close();
@@ -244,7 +249,10 @@ export class DatabaseServiceImpl implements DatabaseService {
     try {
       await session.run(
         'MATCH (p:Person), (partner:Person) WHERE p.id = $personId AND partner.id = $partnerId CREATE (p)-[:PARTNER]->(partner)',
-        { personId: person.properties.id, partnerId: partner.properties.id }
+        {
+          personId: person.properties.id,
+          partnerId: partner.properties.id,
+        }
       );
     } finally {
       await session.close();
@@ -257,7 +265,10 @@ export class DatabaseServiceImpl implements DatabaseService {
     try {
       await session.run(
         'MATCH (p:Person)-[r:PARTNER]-(partner:Person) WHERE p.id = $personId AND partner.id = $partnerId DELETE r',
-        { personId: person.properties.id, partnerId: partner.properties.id }
+        {
+          personId: person.properties.id,
+          partnerId: partner.properties.id,
+        }
       );
     } finally {
       await session.close();

@@ -22,7 +22,40 @@ Then(
   'I should see a {string} field containing {string}',
   function (this: World, field: string, value: string) {
     expect(this.response).not.to.be.undefined;
+    expect(this.response?.body).to.have.property(field);
     expect(this.response?.body[field]).to.equal(value);
+  }
+);
+Then(
+  'I should see a {string} field containing the object {string}',
+  function (this: World, field: string, value: string) {
+    expect(this.response).not.to.be.undefined;
+    expect(this.response?.body).to.have.property(field);
+    expect(this.response?.body[field]).to.deep.equal(JSON.parse(value));
+  }
+);
+Then(
+  'I should see a {string} field including {string}',
+  function (this: World, field: string, value: string) {
+    expect(this.response).not.to.be.undefined;
+    expect(this.response?.body).to.have.property(field);
+    expect(this.response?.body[field]).to.include(value);
+  }
+);
+Then(
+  'I should see a {string} field including the object {string}',
+  function (this: World, field: string, value: string) {
+    expect(this.response).not.to.be.undefined;
+    expect(this.response?.body).to.have.property(field);
+    expect(this.response?.body[field]).to.be.an('array');
+    let found = false;
+    this.response?.body[field].forEach((element: object) => {
+      console.log(element, JSON.parse(value));
+      if (expect(element).to.contain(JSON.parse(value))) {
+        found = true;
+      }
+    });
+    expect(found).to.be.true;
   }
 );
 Then('I should see a {string} field', function (this: World, field: string) {
