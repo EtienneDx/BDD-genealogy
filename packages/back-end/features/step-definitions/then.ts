@@ -105,3 +105,18 @@ Then(
     expect(relatedPerson.properties.name).to.be(name);
   }
 );
+
+Then(
+  'the user {string} is saved in the database',
+  async function (this: World, email: string) {
+    if (this.parameters['mock-database'] === true) {
+      // when mocking, we consider that the person is always found
+      return;
+    }
+    const databaseService = new DatabaseServiceImpl(this.databaseDriver);
+    const user = await databaseService.getUserByEmail(email);
+
+    expect(user).not.to.be.undefined;
+    expect(user?.properties.email).to.equal(email);
+  }
+);

@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import supertest from 'supertest';
 import { DatabaseService } from '../../src/entities/database';
 import { Person } from '../../src/entities/person';

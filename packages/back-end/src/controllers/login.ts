@@ -1,11 +1,8 @@
 import { Request, Response } from 'express';
 import { CreateAppOptions } from '..';
 
-export default ({
-    tokenService,
-    passwordService,
-    databaseService,
-  }: CreateAppOptions) =>
+export const loginUser =
+  ({ tokenService, passwordService, databaseService }: CreateAppOptions) =>
   async (req: Request, res: Response) => {
     if (typeof req.body !== 'object') {
       res.status(400).json({ message: 'Invalid request body' });
@@ -52,5 +49,6 @@ export default ({
       email: userProperties.email,
     });
 
+    res.status(200);
     res.json({ token });
   };

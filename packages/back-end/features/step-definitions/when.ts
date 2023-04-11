@@ -2,7 +2,11 @@ import { When } from '@cucumber/cucumber';
 import { expect } from 'chai';
 import supertest from 'supertest';
 import World from './world';
-import { DatabaseServiceImpl, PersonProperties } from '../../src/entities';
+import {
+  DatabaseServiceImpl,
+  PersonProperties,
+  UserProperties,
+} from '../../src/entities';
 import { getTestRoute } from './helpers';
 
 When('I visit {string}', async function (this: World, path: string) {
@@ -25,6 +29,21 @@ When(
 
     const databaseService = new DatabaseServiceImpl(this.databaseDriver);
     await databaseService.createPerson(person);
+  }
+);
+
+When(
+  'I register as new user {string}',
+  async function (this: World, data: string) {
+    if (this.parameters['mock-database'] === true) {
+      // when mocking, we consider that the person is successfully added
+      return;
+    }
+
+    const user: Partial<UserProperties> = JSON.parse(data);
+
+    const databaseService = new DatabaseServiceImpl(this.databaseDriver);
+    await databaseService.createUser(user);
   }
 );
 
