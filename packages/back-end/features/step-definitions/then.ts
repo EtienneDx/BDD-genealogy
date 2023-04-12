@@ -107,7 +107,7 @@ Then(
 );
 
 Then(
-  'the user {string} is saved in the database',
+  'the user with email {string} is saved in the database',
   async function (this: World, email: string) {
     if (this.parameters['mock-database'] === true) {
       // when mocking, we consider that the person is always found

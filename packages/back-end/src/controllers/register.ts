@@ -35,5 +35,5 @@ export const registerUser =
       email: userProperties.email,
     });
 
-    res.status(200).json({ token });
+    res.json({ token });
   };

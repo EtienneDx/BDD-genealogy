@@ -7,7 +7,11 @@ import {
   PersonCreationValidationService,
   TokenService,
 } from './services';
-import { loginUser, createPerson, registerUser } from './controllers';
+import {
+  loginUser,
+  registerUser,
+  createPerson,
+} from './controllers';
 
 declare module 'express-serve-static-core' {
   export interface Express {

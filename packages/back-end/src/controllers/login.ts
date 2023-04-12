@@ -21,15 +21,10 @@ export const loginUser =
 
     const resUser = await databaseService.getUserByEmail(email);
     if (resUser === undefined) {
-      res.status(500).json({ message: 'Database server error.' });
-      return;
-    }
-    const userProperties = resUser.properties;
-
-    if (userProperties === undefined) {
       res.status(403).json({ message: 'Invalid credentials' });
       return;
     }
+    const userProperties = resUser.properties;
 
     if (userProperties.password === undefined) {
       res.status(403).json({ message: 'Disabled user' });
@@ -52,6 +47,5 @@ export const loginUser =
       email: userProperties.email,
     });
 
-    res.status(200);
     res.json({ token });
   };

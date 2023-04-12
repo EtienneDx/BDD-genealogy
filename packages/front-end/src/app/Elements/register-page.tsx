@@ -11,7 +11,7 @@ export function Register(): JSX.Element {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const response = await fetch(backendUrl() + '/register', {
+      const response = await fetch(backendUrl + '/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

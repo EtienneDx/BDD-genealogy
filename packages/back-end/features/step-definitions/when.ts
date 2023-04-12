@@ -2,11 +2,7 @@ import { When } from '@cucumber/cucumber';
 import { expect } from 'chai';
 import supertest from 'supertest';
 import World from './world';
-import {
-  DatabaseServiceImpl,
-  PersonProperties,
-  UserProperties,
-} from '../../src/entities';
+import { DatabaseServiceImpl, PersonProperties } from '../../src/entities';
 import { getTestRoute } from './helpers';
 
 When('I visit {string}', async function (this: World, path: string) {

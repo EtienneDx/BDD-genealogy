@@ -42,7 +42,7 @@ function AddPerson(): JSX.Element {
       children,
     };
     try {
-      const response = await fetch(backendUrl() + '/add-person', {
+      const response = await fetch(backendUrl + '/add-person', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -56,56 +56,58 @@ function AddPerson(): JSX.Element {
 
   return (
     <div className={styles.container}>
-      <Link to='/' className={styles.familytree}>Family Tree</Link>
+      <Link to="/" className={styles.familytree}>
+        Family Tree
+      </Link>
       <h1>Add person</h1>
       <form className={styles.formAddPerson} onSubmit={handleSubmit}>
         <div className={styles.formGroup}>
           <input
-            type='text'
-            id='name-input'
-            placeholder='Name'
+            type="text"
+            id="name-input"
+            placeholder="Name"
             value={name}
             onChange={(event) => setName(event.target.value)}
           />
           <input
-            type='text'
-            id='surname-input'
-            placeholder='Surname'
+            type="text"
+            id="surname-input"
+            placeholder="Surname"
             value={surname}
             onChange={(event) => setSurname(event.target.value)}
           />
           <label> Birth date </label>
           <input
-            type='date'
-            id='birth-date'
+            type="date"
+            id="birth-date"
             value={birthDate}
             onChange={(event) => setBirthDate(event.target.value)}
           />
           <label> Death date </label>
           <input
-            type='date'
-            id='death-date'
+            type="date"
+            id="death-date"
             value={deathDate}
             onChange={(event) => setDeathDate(event.target.value)}
           />
           <input
-            type='text'
-            id='father-input'
-            placeholder='Father'
+            type="text"
+            id="father-input"
+            placeholder="Father"
             value={father}
             onChange={(event) => setFather(event.target.value)}
           />
           <input
-            type='text'
-            id='mother-input'
-            placeholder='Mother'
+            type="text"
+            id="mother-input"
+            placeholder="Mother"
             value={mother}
             onChange={(event) => setMother(event.target.value)}
           />
           <input
-            type='text'
-            id='Partner-input'
-            placeholder='Partner'
+            type="text"
+            id="Partner-input"
+            placeholder="Partner"
             value={partner}
             onChange={(event) => setPartner(event.target.value)}
           />
@@ -113,13 +115,13 @@ function AddPerson(): JSX.Element {
           {children.map((childName, index) => (
             <div key={index} className={styles.childFormGroup}>
               <input
-                type='text'
-                placeholder='Child'
+                type="text"
+                placeholder="Child"
                 value={childName}
                 onChange={(e) => handleChildNameChange(index, e.target.value)}
               />
               <button
-                type='button'
+                type="button"
                 className={styles.removeChildButton}
                 onClick={() => handleRemoveChild(index)}
               >
@@ -129,14 +131,14 @@ function AddPerson(): JSX.Element {
           ))}
 
           <button
-            type='button'
+            type="button"
             className={styles.addChildButton}
             onClick={handleAddChild}
           >
             Add Child
           </button>
 
-          <button type='submit' id='submit-btn' className={styles.submit}>
+          <button type="submit" id="submit-btn" className={styles.submit}>
             Submit
           </button>
         </div>

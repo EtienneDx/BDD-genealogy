@@ -9,7 +9,7 @@ export function Login(): JSX.Element {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const response = await fetch(backendUrl() + '/login', {
+      const response = await fetch(backendUrl + '/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

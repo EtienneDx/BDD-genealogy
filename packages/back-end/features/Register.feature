@@ -1,6 +1,8 @@
-Feature: Add persons
+Feature: Add user
 
-  I want a new user to be able to be registered.
+  As a new user
+  I want to be able to register
+  So that I can access the app
 
   Background: A running app
     Given a running app
@@ -8,7 +10,7 @@ Feature: Add persons
 
   Scenario: Register with valid data
     When I "post" a "{\"name\": \"John Doe\", \"email\": \"test@test.fr\", \"password\": \"newpassword1234\"}" object to '/register'
-    Then the user "test@test.fr" is saved in the database
+    Then the user with email "test@test.fr" is saved in the database
     And I should see a 200 status code
     And I should see a "application/json" content type
     And I should see a "token" field

@@ -12,7 +12,7 @@ export function BarMenu(): JSX.Element {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const response = await fetch(backendUrl() + '/api/family-tree', {
+      const response = await fetch(backendUrl + '/api/family-tree', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, surname, generations, treeType }),
