@@ -11,6 +11,8 @@ import {
   loginUser,
   registerUser,
   createPerson,
+  getPersonById,
+  getPersonsByName,
 } from './controllers';
 
 declare module 'express-serve-static-core' {
@@ -36,7 +38,6 @@ export type CreateAppOptions = {
 };
 export default function createApp(options: CreateAppOptions) {
   const app = express();
-  app.databaseService = options.databaseService;
 
   app.use(express.json());
 
@@ -48,6 +49,9 @@ export default function createApp(options: CreateAppOptions) {
   app.use(authorizationMiddleware(options));
 
   app.post('/person', createPerson(options));
+
+  app.get('/person/id/:id', getPersonById(options));
+  app.get('/person/name/:name', getPersonsByName(options));
 
   return app;
 }

@@ -7,7 +7,7 @@ import { getTestRoute } from './helpers';
 
 When('I visit {string}', async function (this: World, path: string) {
   expect(this.app).not.to.be.undefined;
-  this.response = await supertest(this.app).get(path);
+  this.response = await supertest(this.app).get(path).set(this.requestHeaders);
 });
 
 When(
