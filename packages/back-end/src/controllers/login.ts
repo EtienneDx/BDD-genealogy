@@ -1,11 +1,8 @@
 import { Request, Response } from 'express';
 import { CreateAppOptions } from '..';
 
-export default ({
-    tokenService,
-    passwordService,
-    databaseService,
-  }: CreateAppOptions) =>
+export const loginUser =
+  ({ tokenService, passwordService, databaseService }: CreateAppOptions) =>
   async (req: Request, res: Response) => {
     if (typeof req.body !== 'object') {
       res.status(400).json({ message: 'Invalid request body' });
@@ -22,14 +19,12 @@ export default ({
 
     const { email, password } = req.body;
 
-    const userProperties = await databaseService
-      .getUserByEmail(email)
-      .then((user) => user?.properties);
-
-    if (userProperties === undefined) {
+    const resUser = await databaseService.getUserByEmail(email);
+    if (resUser === undefined) {
       res.status(403).json({ message: 'Invalid credentials' });
       return;
     }
+    const userProperties = resUser.properties;
 
     if (userProperties.password === undefined) {
       res.status(403).json({ message: 'Disabled user' });
