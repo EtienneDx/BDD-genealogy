@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import { DatabaseService } from './entities/database';
 import { authorizationMiddleware } from './middlewares';
 import {
@@ -40,6 +41,8 @@ export default function createApp(options: CreateAppOptions) {
   const app = express();
 
   app.use(express.json());
+  // cors for localhost:4200
+  app.use(cors({ origin: 'http://localhost:4200' }));
 
   app.get('/', (_, res) => {
     res.json({ message: 'Hello World' });
